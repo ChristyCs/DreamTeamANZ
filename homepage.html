@@ -17,7 +17,47 @@
             var dataFile2012 = readCSV("ANZChampionshipResults/2012-Table1.csv");
             var dataFile2013 = readCSV("ANZChampionshipResults/2013-Table1.csv");
 
-          
+            var width = window.innerWidth;
+            var height = window.innerHeight;
+
+
+            var svg = d3.select("body")
+                .append("svg")
+                .attr("width",width)
+                .attr("height",height);
+
+            setupPage();
+
+            function setupPage(){
+                svg.append("rect")
+                    .attr("x",0)
+                    .attr("y",0)
+                    .attr("width",width)
+                    .attr("height", height*0.1)
+                    .attr("fill",("rgb(238,201,0)"));
+
+                svg.append("rect")
+                    .attr("x",0)
+                    .attr("y",height*0.1)
+                    .attr("width",width)
+                    .attr("height", height*0.05)
+                    .attr("fill",("rgb(151,255,255)"));
+
+            // svg.append("image")
+            //     .attr("xlink:href","greyscale.jpg")
+            //     .attr("overflow","hidden")
+            //     .attr("x",0)
+            //     .attr("y",0)
+            //     .attr("width",width)
+            //     .attr("height",height);
+
+                svg.append("rect")
+                    .attr("x",0)
+                    .attr("y",height*0.15)
+                    .attr("width",width)
+                    .attr("height",height-(height*0.15))
+                    .attr("fill",("rgb(99,99,99)"));
+            }
 
             function readCSV(fname){
                 
