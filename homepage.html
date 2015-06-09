@@ -10,26 +10,38 @@
         <script type="text/javascript">           
 
             // Round,Date,Time,Home Team,Score,Away Team,Venue
+            var dataFile2008 = readCSV("ANZChampionshipResults/2008-Table1.csv");
+            // var dataFile2009 = readCSV("ANZChampionshipResults/2009-Table1.csv");
+            // var dataFile2010 = readCSV("ANZChampionshipResults/2010-Table1.csv");
+            // var dataFile2011 = readCSV("ANZChampionshipResults/2011-Table1.csv");
+            // var dataFile2012 = readCSV("ANZChampionshipResults/2012-Table1.csv");
+            // var dataFile2013 = readCSV("ANZChampionshipResults/2013-Table1.csv");
 
-            var dataFile2008;
+          
 
-            d3.csv("ANZChampionshipResults/2008-Table1.csv", function(d) {
+            function readCSV(fname){
+                //console.log("reading csv")
+                d3.csv(fname, function(d) {
+                return readData(d);
+            }, function(error, rows) {                
+                //console.log(rows);
+                return rows;               
+            });
+            }
 
+            function readData(d){
+                //console.log("reading data");
                 return {
                     round: +d.Round,
                     date: d.Date,
                     time: d.Time,
-                    hometeam: d.Home_Team,
+                    hometeam: d['Home Team'],
                     score: d.Score,
-                    awayteam: d.Away_Team,
+                    awayteam: d['Away Team'],
                     venue: d.Venue
                 
                  };
-            }, function(error, rows) {
-                dataFile2008 = rows;
-                console.log(dataFile2008);
-            });
-
+            }
             
            
         </script>
