@@ -20,17 +20,17 @@
           
 
             function readCSV(fname){
-                //console.log("reading csv")
+                
                 d3.csv(fname, function(d) {
                 return readData(d);
             }, function(error, rows) {                
-                //console.log(rows);
+                
                 return rows;               
             });
             }
 
             function readData(d){
-                //console.log("reading data");
+               
                 return {
                     round: +d.Round,
                     date: d.Date,
