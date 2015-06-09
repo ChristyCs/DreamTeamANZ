@@ -7,9 +7,30 @@
         <script src="d3.js"></script>
     </head>
     <body>
-        <script type="text/javascript">
-           
-	    
+        <script type="text/javascript">           
+
+            // Round,Date,Time,Home Team,Score,Away Team,Venue
+
+            var dataFile2008;
+
+            d3.csv("ANZChampionshipResults/2008-Table1.csv", function(d) {
+
+                return {
+                    round: +d.Round,
+                    date: d.Date,
+                    time: d.Time,
+                    hometeam: d.Home_Team,
+                    score: d.Score,
+                    awayteam: d.Away_Team,
+                    venue: d.Venue
+                
+                 };
+            }, function(error, rows) {
+                dataFile2008 = rows;
+                console.log(dataFile2008);
+            });
+
+            
            
         </script>
     </body>
