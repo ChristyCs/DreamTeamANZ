@@ -6,7 +6,7 @@
         <!--<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>-->
         <script src="d3.js"></script>
     </head>
-    <body>
+    <body style = "margin-top: 0px; margin-left: 0px">
         <script type="text/javascript">           
 
             // Round,Date,Time,Home Team,Score,Away Team,Venue
@@ -59,6 +59,50 @@
                     .attr("fill",("rgb(99,99,99)"));
             }
 
+            var buttWid = width * 0.1;
+            var buttHgt = height * 0.1;
+            var buttY = height *0.2;
+            addButton(width - buttWid, height *0.2, buttWid, buttHgt, "yellow", "Homepage");
+            addButton(width - buttWid, buttY + (buttHgt*1.5), buttWid, buttHgt, "yellow", "teams");
+            addButton(width - buttWid, buttY + (buttHgt*3), buttWid, buttHgt, "yellow", "Teams");
+            addButton(width - buttWid, buttY + (buttHgt*3), buttWid, buttHgt, "yellow", "Standings");
+            addButton(width - buttWid, buttY + (buttHgt*4.5), buttWid, buttHgt, "yellow", "Venues");
+            addButton(width - buttWid, buttY + (buttHgt*6), buttWid, buttHgt, "yellow", "Calendar");
+
+
+            function addButton(x, y, width, height, colour, buttName){
+
+                svg.append("rect")
+                    .attr("id", buttName)
+                    .attr("x", x)
+                    .attr("y", y)
+                    .attr("width", width)
+                    .attr("height", height)
+                    .attr("fill", colour)
+                    .on("mouseover", function(){
+                        d3.select(this)
+                            .transition()
+                            .attr("fill", "green")
+                            .attr("width", buttWid * 1.3)
+                            .attr("x", x - buttWid * 0.3)
+                            .attr("y", y - (0.2 * (buttHgt * 1.4)))
+                            .attr("height", buttHgt * 1.4)
+                     })
+                    .on("mouseout", function(d){
+                         d3.select(this)
+                            .transition()
+                            .style("fill", colour)
+                            .attr("width", buttWid)
+                            .attr("x", x)
+                            .attr("height", height)
+                            .attr("y", y)
+                    })
+
+            }
+
+
+
+
             function readCSV(fname){
                 
                 d3.csv(fname, function(d) {
@@ -83,6 +127,9 @@
                  };
             }
             
+
+
+
            
         </script>
     </body>
