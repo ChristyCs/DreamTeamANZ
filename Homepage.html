@@ -5,40 +5,69 @@
         <title>D3 Project</title>
         <!--<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>-->
         <script src="d3.js"></script>
+        <script type="text/javascript" src="data.js"></script>
     </head>
-    <body style = "margin-top: 0px; margin-left: 0px">
+    <body style = "margin-top: 0px; margin-left: 0px; margin-bottom: 0px">
         <script type="text/javascript">           
 
-            // Round,Date,Time,Home Team,Score,Away Team,Venue
-            var dataFile2008 = readCSV("ANZChampionshipResults/2008-Table1.csv");
-            var dataFile2009 = readCSV("ANZChampionshipResults/2009-Table1.csv");
-            var dataFile2010 = readCSV("ANZChampionshipResults/2010-Table1.csv");
-            var dataFile2011 = readCSV("ANZChampionshipResults/2011-Table1.csv");
-            var dataFile2012 = readCSV("ANZChampionshipResults/2012-Table1.csv");
-            var dataFile2013 = readCSV("ANZChampionshipResults/2013-Table1.csv");
-
-
-            function readCSV(fname){                
+           var file = new data();
+           setupData();
+           function setupData(){
+           file.set2008(readCSV("ANZChampionshipResults/2008-Table1.csv"));
+           file.data2009 = readCSV("ANZChampionshipResults/2009-Table1.csv");
+           file.data2010 = readCSV("ANZChampionshipResults/2010-Table1.csv");
+           file.data2011 = readCSV("ANZChampionshipResults/2011-Table1.csv");
+           file.data2012 = readCSV("ANZChampionshipResults/2012-Table1.csv");
+           file.data2013 = readCSV("ANZChampionshipResults/2013-Table1.csv");
+         }
+         function readCSV(fname){                         
                 d3.csv(fname, function(d) {
-                return readData(d);
+                var season = file.readData(d);
+                file.allData.push(season);
+                return season;
             }, function(error, rows) {                 
                 return rows;               
                 });
             }
 
-            function readData(d){               
-                return {
-                    round: +d.Round,
-                    date: d.Date,
-                    time: d.Time,
-                    hometeam: d['Home Team'],
-                    score: d.Score,
-                    awayteam: d['Away Team'],
-                    venue: d.Venue                
-                 };
+
+
+
+           testData(file);
+            function testData(file){
+                console.log(file);
             }
 
 
+            //Round,Date,Time,Home Team,Score,Away Team,Venue
+            // var dataFile2008 = readCSV("ANZChampionshipResults/2008-Table1.csv");
+            // var dataFile2009 = readCSV("ANZChampionshipResults/2009-Table1.csv");
+            // var dataFile2010 = readCSV("ANZChampionshipResults/2010-Table1.csv");
+            // var dataFile2011 = readCSV("ANZChampionshipResults/2011-Table1.csv");
+            // var dataFile2012 = readCSV("ANZChampionshipResults/2012-Table1.csv");
+            // var dataFile2013 = readCSV("ANZChampionshipResults/2013-Table1.csv");
+
+
+            // function readCSV(fname){                
+            //     d3.csv(fname, function(d) {
+            //     return readData(d);
+            // }, function(error, rows) {                 
+            //     return rows;               
+            //     });
+            // }
+
+            // function readData(d){               
+            //     return {
+            //         round: +d.Round,
+            //         date: d.Date,
+            //         time: d.Time,
+            //         hometeam: d['Home Team'],
+            //         score: d.Score,
+            //         awayteam: d['Away Team'],
+            //         venue: d.Venue                
+            //      };
+            // }
+            
             var width = window.innerWidth;
             var height = window.innerHeight;
 
