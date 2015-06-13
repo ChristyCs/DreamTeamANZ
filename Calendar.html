@@ -16,6 +16,7 @@
             var dataFile2011 = readCSV("ANZChampionshipResults/2011-Table1.csv");
             var dataFile2012 = readCSV("ANZChampionshipResults/2012-Table1.csv");
             var dataFile2013 = readCSV("ANZChampionshipResults/2013-Table1.csv");
+            var selectedDate = "Friday 13th October 2010";
 
 
             function readCSV(fname){
@@ -65,22 +66,41 @@
                     .attr("height", height*0.05)
                     .attr("fill",("rgb(151,255,255)"));
 
-            // svg.append("image")
-            //     .attr("xlink:href","greyscale.jpg")
-            //     .attr("overflow","hidden")
-            //     .attr("x",0)
-            //     .attr("y",0)
-            //     .attr("width",width)
-            //     .attr("height",height);
+            svg.append("image")
+                .attr("preserveAspectRatio","none")
+                .attr("xlink:href","images/greyscale.jpg")
+                .attr("x",0)
+                .attr("y",height*0.15)
+                .attr("width",width)
+                .attr("height",height)
+                .style("opacity", 0.8);
 
-                svg.append("rect")
-                    .attr("x",0)
-                    .attr("y",height*0.15)
-                    .attr("width",width)
-                    .attr("height",height-(height*0.15))
-                    .attr("fill",("rgb(99,99,99)"));
+                // svg.append("rect")
+                //     .attr("x",0)
+                //     .attr("y",height*0.15)
+                //     .attr("width",width)
+                //     .attr("height",height-(height*0.15))
+                //     .attr("fill",("rgb(99,99,99)"));
             }
 
+            var g = svg.append("g");
+
+            g.append("rect")
+                .attr("x",width*0.2)
+                .attr("y",height*0.25)
+                .attr("width", width/2)
+                .attr("height", height-(height/3))
+                .attr("fill", "white");
+
+            g.append("text")
+                .text(selectedDate)
+                .attr("x",width*0.2+(width/4))
+                .attr("y",height*0.3)
+                .attr("font-family", "Arial Black")
+                .attr("font-size", "30px")
+                .attr("font-weight", "bold")
+                .style("text-decoration","underline")
+                .style("text-anchor","middle");
 
 
             var buttWid = width * 0.1;
