@@ -8,7 +8,7 @@
         <script type="text/javascript" src="data.js"></script>
     </head>
     <body style = "margin-top: 0px; margin-left: 0px; margin-bottom: 0px">
-        <script type="text/javascript">           
+        <script type="text/javascript">
 
            var file = new data();
            setupData();
@@ -20,13 +20,13 @@
            file.data2012 = readCSV("ANZChampionshipResults/2012-Table1.csv");
            file.data2013 = readCSV("ANZChampionshipResults/2013-Table1.csv");
          }
-         function readCSV(fname){                         
+         function readCSV(fname){
                 d3.csv(fname, function(d) {
                 var season = file.readData(d);
                 file.allData.push(season);
                 return season;
-            }, function(error, rows) {                 
-                return rows;               
+            }, function(error, rows) {
+                return rows;
                 });
             }
 
@@ -48,15 +48,15 @@
             // var dataFile2013 = readCSV("ANZChampionshipResults/2013-Table1.csv");
 
 
-            // function readCSV(fname){                
+            // function readCSV(fname){
             //     d3.csv(fname, function(d) {
             //     return readData(d);
-            // }, function(error, rows) {                 
-            //     return rows;               
+            // }, function(error, rows) {
+            //     return rows;
             //     });
             // }
 
-            // function readData(d){               
+            // function readData(d){
             //     return {
             //         round: +d.Round,
             //         date: d.Date,
@@ -64,10 +64,10 @@
             //         hometeam: d['Home Team'],
             //         score: d.Score,
             //         awayteam: d['Away Team'],
-            //         venue: d.Venue                
+            //         venue: d.Venue
             //      };
             // }
-            
+
             var width = window.innerWidth;
             var height = window.innerHeight;
 
@@ -117,7 +117,7 @@
             var buttY = height *0.2;
             addButton(width - buttWid, height *0.2, buttWid, buttHgt, "rgb(255,255,192)", "Homepage");
             addButton(width - buttWid, buttY + (buttHgt*1.5), buttWid, buttHgt, "rgb(238,238,128)", "Teams");
-            
+
             addButton(width - buttWid, buttY + (buttHgt*3), buttWid, buttHgt, "rgb(205,205,64)", "Standings");
             addButton(width - buttWid, buttY + (buttHgt*4.5), buttWid, buttHgt, "rgb(171,171,32)", "Venues");
             addButton(width - buttWid, buttY + (buttHgt*6), buttWid, buttHgt, "rgb(139,139,0)", "Calendar");
@@ -154,8 +154,28 @@
                         window.open("Homepage.html", "_self")
                     })
 
+                    appendText(buttName, x, y + (0.25*buttWid), 15);
+
             }
-           
+
+            /**
+              appends text to the dialog box created in the svg
+              given the text and the x and y vals in which the
+              text will be placed
+            */
+            function appendText(text, xVal, yVal, fontsize){
+              d3.select("svg")
+                .append("text")
+                .transition()
+                  .attr("id", "button")
+                  .text(text)
+                  .attr("x", xVal)
+                  .attr("y", yVal)
+                  .attr("font-size", fontsize)
+                  .attr("font-family", "georgia")
+                  .attr("fill", "black")
+            }
+
         </script>
     </body>
-</html>     
+</html>
