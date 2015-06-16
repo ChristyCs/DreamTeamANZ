@@ -39,35 +39,6 @@
             }
 
 
-            //Round,Date,Time,Home Team,Score,Away Team,Venue
-            // var dataFile2008 = readCSV("ANZChampionshipResults/2008-Table1.csv");
-            // var dataFile2009 = readCSV("ANZChampionshipResults/2009-Table1.csv");
-            // var dataFile2010 = readCSV("ANZChampionshipResults/2010-Table1.csv");
-            // var dataFile2011 = readCSV("ANZChampionshipResults/2011-Table1.csv");
-            // var dataFile2012 = readCSV("ANZChampionshipResults/2012-Table1.csv");
-            // var dataFile2013 = readCSV("ANZChampionshipResults/2013-Table1.csv");
-
-
-            // function readCSV(fname){
-            //     d3.csv(fname, function(d) {
-            //     return readData(d);
-            // }, function(error, rows) {
-            //     return rows;
-            //     });
-            // }
-
-            // function readData(d){
-            //     return {
-            //         round: +d.Round,
-            //         date: d.Date,
-            //         time: d.Time,
-            //         hometeam: d['Home Team'],
-            //         score: d.Score,
-            //         awayteam: d['Away Team'],
-            //         venue: d.Venue
-            //      };
-            // }
-
             var width = window.innerWidth;
             var height = window.innerHeight;
 
@@ -94,13 +65,7 @@
                     .attr("height", height*0.05)
                     .attr("fill",("rgb(151,255,255)"));
 
-            // svg.append("image")
-            //     .attr("xlink:href","greyscale.jpg")
-            //     .attr("overflow","hidden")
-            //     .attr("x",0)
-            //     .attr("y",0)
-            //     .attr("width",width)
-            //     .attr("height",height);
+
 
                 svg.append("rect")
                     .attr("x",0)

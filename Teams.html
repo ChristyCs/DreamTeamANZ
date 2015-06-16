@@ -150,9 +150,6 @@
               appendLogo(logoX + (middleRectWidth - logoWidth), logoY + (logoHeight * i), logoWidth, logoHeight, NZLogoNames[i] + ".png");
             }
 
-
-
-
             function appendLogo(x, y, width, height, fname){
               g.append("image")
                 .attr("preserveAspectRatio","none")
@@ -171,7 +168,6 @@
                     .style("opacity", 0.6)
                 })
                 .on("mousedown", function(){
-
                   window.open("SelectedTeam.html", "_self")
                 })
             }
