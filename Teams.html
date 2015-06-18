@@ -94,20 +94,21 @@
                     .attr("height", height*0.05)
                     .attr("fill",("rgb(151,255,255)"));
 
-            // svg.append("image")
-            //     .attr("xlink:href","greyscale.jpg")
-            //     .attr("overflow","hidden")
-            //     .attr("x",0)
-            //     .attr("y",0)
-            //     .attr("width",width)
-            //     .attr("height",height);
+                    svg.append("image")
+                        .attr("preserveAspectRatio","none")
+                        .attr("xlink:href","images/ANZGamePictures/ANZ1.jpg")
+                        .attr("x",0)
+                        .attr("y",height*0.15)
+                        .attr("width",width)
+                        .attr("height",height)
+                        .style("opacity", 0.8);
 
-                svg.append("rect")
-                    .attr("x",0)
-                    .attr("y",height*0.15)
-                    .attr("width",width)
-                    .attr("height",height-(height*0.15))
-                    .attr("fill",("rgb(99,99,99)"));
+                // svg.append("rect")
+                //     .attr("x",0)
+                //     .attr("y",height*0.15)
+                //     .attr("width",width)
+                //     .attr("height",height-(height*0.15))
+                //     .attr("fill",("rgb(99,99,99)"));
             }
 
 
@@ -121,7 +122,8 @@
                 .attr("y",height*0.25)
                 .attr("width", middleRectWidth)
                 .attr("height", middleRectHeight)
-                .attr("fill", "white");
+                .attr("fill", "white")
+                .attr("opacity", 0.9)
 
                 // g.append("image")
                 //     .attr("preserveAspectRatio","none")

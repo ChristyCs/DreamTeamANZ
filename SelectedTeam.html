@@ -39,11 +39,11 @@
             }
 
 
-            // var width = window.innerWidth;
-            // var height = window.innerHeight;
+            var width = window.innerWidth;
+            var height = window.innerHeight;
 
-            var width = 1280
-            var height = 650
+            // var width = 1280
+            // var height = 650
 
             var svg = d3.select("body")
                 .append("svg")
@@ -73,12 +73,14 @@
 
 
 
-                svg.append("rect")
-                    .attr("x",0)
-                    .attr("y",height*0.15)
-                    .attr("width",width)
-                    .attr("height",height-(height*0.15))
-                    .attr("fill",("rgb(99,99,99)"));
+                    svg.append("image")
+                        .attr("preserveAspectRatio","none")
+                        .attr("xlink:href","images/ANZGamePictures/ANZ2.jpg")
+                        .attr("x",0)
+                        .attr("y",height*0.15)
+                        .attr("width",width)
+                        .attr("height",height)
+                        .style("opacity", 0.8);
             }
 
             var buttWid = width * 0.1;
@@ -151,11 +153,18 @@
             var rectWidth = width * (1/6)
             var rectHeight = height * (1/4)
 
+            addInfoRects("About", "", width * 0.05, height * 0.7);
+            addInfoRects("Venue", "", width * 0.35, height * 0.7);
+            addInfoRects("Seasons", "", width * 0.65, height * 0.7);
+
+            function addInfoRects(title, text, x, y){
+
+
             var clicked = false;
 
             var seasonsRect = g.append("rect")
-                .attr("x",width*0.05)
-                .attr("y",height*0.65)
+                .attr("x",x)
+                .attr("y",y)
                 .attr("width", rectWidth)
                 .attr("height", rectHeight)
                 .attr("fill", "white")
@@ -173,14 +182,23 @@
                   else{
                     d3.select(this)
                       .transition()
-                      .attr("x",width*0.05)
-                      .attr("y",height*0.65)
+                      .attr("x",x)
+                      .attr("y",y)
                       .attr("width", rectWidth)
                       .attr("height", rectHeight)
 
                     clicked = false;
                   }
                 })
+                g.append("text")
+                  //.attr("id", "button")
+                  .text(title)
+                  .attr("x", x)
+                  .attr("y", y)
+                  .attr("font-size", 16)
+                  .attr("font-family", "georgia")
+                  .attr("fill", "black")
+              }
 
 
 
