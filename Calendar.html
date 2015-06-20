@@ -98,15 +98,105 @@
                 .attr("height", height-(height/3))
                 .attr("fill", "white");
 
-            var week = [1,2,3,4,5,6,7];
-            g.append("tr")
-                .selectAll("td")
-                .data(week)
-                .enter()
-                .append("td")
-                .text(function (d) {
-                    return d;
+            drawCalendar("June", "2010",g);
+
+            /*Takes care of drawing the calendar which takes the current year and month
+                and the group which to append it to.
+            */
+            function drawCalendar(month, year, group){
+                //Two variations of months depends whether there are 30 or 31 days
+                var days = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,
+                19,20,21,22,23,24,25,26,27,28,29,30];
+                var daysLonger = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,
+                19,20,21,22,23,24,25,26,27,28,29,30,31];
+
+                //Title for the calendar
+                var titleFontSize = 40;
+                group.append("text")
+                    .text(month+" "+year)
+                    .attr("x", width * 0.45)
+                    .attr("y", height * 0.28 + titleFontSize)
+                    .attr("font-size", titleFontSize)
+                    .attr("font-family", "georgia")
+                    .attr("fill", "black")
+                    .attr("font-weight", "bold")
+                    .attr("text-anchor", "middle");                 
+
+                var cellWidth = width/20;
+                var cellX = width*0.27;
+                var cellY = height*0.4;
+                var padding = 3;
+
+                //Creates all the calendar day titles
+                var dayNameY = cellY - 10;
+                createDayNames("Sunday", cellX, dayNameY,cellWidth ,0 ,group);
+                createDayNames("Monday", cellX, dayNameY,cellWidth ,1 ,group);
+                createDayNames("Tuesday", cellX, dayNameY,cellWidth ,2 ,group);
+                createDayNames("Wednesday", cellX, dayNameY,cellWidth ,3 ,group);
+                createDayNames("Thursday", cellX, dayNameY,cellWidth ,4 ,group);
+                createDayNames("Friday", cellX, dayNameY,cellWidth ,5 ,group);
+                createDayNames("Saturday", cellX, dayNameY,cellWidth ,6 ,group);
+
+                var cells;
+                //Checks whether for different month lengths
+                if(month == "April" || month == "June"){
+                    cells = d3.selectAll(days);
+                }
+                else{
+                    cells = d3.selectAll(daysLonger);
+                }
+                cells.each(function(d,i){
+                    group.append("rect")
+                        .attr("x",cellX)
+                        .attr("y",cellY)
+                        .attr("width", cellWidth)
+                        .attr("height", cellWidth)
+                        .attr("fill", "white")
+                        .attr("stroke", "black")
+                        .attr("stroke-width", 1.5)
+                        .on("mousedown", function(){
+                            console.log("Day click: "+(i+1));
+                        })
+                        .on("mouseover", function(){
+                            d3.select(this)
+                                .transition()
+                                .attr("fill", "grey");
+                        })
+                        .on("mouseout", function(){
+                            d3.select(this)
+                                .transition()
+                                .attr("fill", "white");
+                        });
+                    //Numbers each day of the month
+                    group.append("text")
+                        .text(i+1)
+                        .attr("x", cellX + padding)
+                        .attr("y", cellY + 20)
+                        .attr("font-size", 20)
+                        .attr("font-family", "georgia")
+                        .attr("fill", "black");
+
+                    //Checks whether it is a new week so a new row is created
+                    cellX = cellX + cellWidth;
+                    var remainder = (i + 1) % 7;
+                    if(remainder == 0 && i != 0){
+                        cellY = cellY + cellWidth;
+                        cellX = width * 0.27;
+                    }
                 });
+            }
+
+            //Creates the day names for the calendar Sunday - Saturday etc
+            function createDayNames(name, x, y, cellWidth, dayNum, group){
+                group.append("text")
+                    .text(name)
+                    .attr("x", x + (cellWidth/2) + (cellWidth * dayNum))
+                    .attr("y", y)
+                    .attr("font-size", 15)
+                    .attr("font-family", "georgia")
+                    .attr("fill", "black")
+                    .attr("text-anchor", "middle");  
+            }
 
             var buttWid = width * 0.1;
             var buttHgt = height * 0.1;
@@ -170,7 +260,6 @@
                   .attr("fill", "black")
                   .attr("font-weight","bold")
             }
-
         </script>
     </body>
 </html>
