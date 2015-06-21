@@ -6,19 +6,7 @@
         <!--<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>-->
         <script src="d3.js"></script>
     </head>
-    <style>
-    #calendar{
-        width: 600px;
-        height: 400px;
-        border-collapse: collapse;
-    }
 
-    #calendar td{
-        border: 1px solid black;
-        text-align: right;
-        vertical-align: top;
-    }
-    </style>
     <body style = "margin-top: 0px; margin-left: 0px">
         <script type="text/javascript">
 
@@ -29,7 +17,10 @@
             var dataFile2011 = readCSV("ANZChampionshipResults/2011-Table1.csv");
             var dataFile2012 = readCSV("ANZChampionshipResults/2012-Table1.csv");
             var dataFile2013 = readCSV("ANZChampionshipResults/2013-Table1.csv");
-            var selectedDate = "Friday 13th October 2010";
+
+            var currentYear = "2010";
+            var currentMonth = "June";
+            var selectedDay = "";
 
 
             function readCSV(fname){
@@ -63,6 +54,7 @@
                 .attr("height",height);
 
             setupPage();
+            //checkGames();
 
             function setupPage(){
                 svg.append("rect")
@@ -98,21 +90,27 @@
                 .attr("height", height-(height/3))
                 .attr("fill", "white");
 
-            drawCalendar("June", "2010",g);
+            drawCalendar(currentMonth, currentYear,g,false);
 
             /*Takes care of drawing the calendar which takes the current year and month
                 and the group which to append it to.
             */
-            function drawCalendar(month, year, group){
+            function drawCalendar(month, year, group, redrawTitle){
                 //Two variations of months depends whether there are 30 or 31 days
                 var days = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,
                 19,20,21,22,23,24,25,26,27,28,29,30];
                 var daysLonger = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,
                 19,20,21,22,23,24,25,26,27,28,29,30,31];
+                var feb = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,
+                19,20,21,22,23,24,25,26,27,28];
+
+                if(redrawTitle){
+                    group.selectAll("text").remove();
+                }
 
                 //Title for the calendar
                 var titleFontSize = 40;
-                group.append("text")
+                var title = group.append("text")
                     .text(month+" "+year)
                     .attr("x", width * 0.45)
                     .attr("y", height * 0.28 + titleFontSize)
@@ -120,7 +118,48 @@
                     .attr("font-family", "georgia")
                     .attr("fill", "black")
                     .attr("font-weight", "bold")
-                    .attr("text-anchor", "middle");                 
+                    .attr("text-anchor", "middle");     
+
+                group.append("image")
+                    .attr("xlink:href","images/ArrowDown.jpg")
+                    .attr("x",width * 0.41)
+                    .attr("y",height * 0.29 + titleFontSize)
+                    .attr("width",25)
+                    .attr("height",25)
+                    .on("mousedown", function(){
+                        currentMonth = nextMonth(currentMonth,currentYear);
+                        drawCalendar(currentMonth, currentYear, group, true);
+                    });
+                group.append("image")
+                    .attr("xlink:href","images/ArrowUp.jpg")
+                    .attr("x",width * 0.41)
+                    .attr("y",height * 0.26)
+                    .attr("width",25)
+                    .attr("height",25)
+                    .on("mousedown", function(){
+                        currentMonth = previousMonth(currentMonth,currentYear);
+                        drawCalendar(currentMonth, currentYear, group, true);
+                    });
+                group.append("image")
+                    .attr("xlink:href","images/ArrowDown.jpg")
+                    .attr("x",width * 0.48)
+                    .attr("y",height * 0.29 + titleFontSize)
+                    .attr("width",25)
+                    .attr("height",25)
+                    .on("mousedown", function(){
+                        currentYear = nextYear(currentYear);
+                        drawCalendar(currentMonth, currentYear, group, true);
+                    });
+                group.append("image")
+                    .attr("xlink:href","images/ArrowUp.jpg")
+                    .attr("x",width * 0.48)
+                    .attr("y",height * 0.26)
+                    .attr("width",25)
+                    .attr("height",25)
+                    .on("mousedown", function(){
+                        currentYear = previousYear(currentYear);
+                        drawCalendar(currentMonth, currentYear, group, true);
+                    });
 
                 var cellWidth = width/20;
                 var cellX = width*0.27;
@@ -141,6 +180,9 @@
                 //Checks whether for different month lengths
                 if(month == "April" || month == "June"){
                     cells = d3.selectAll(days);
+                }
+                if(month == "February"){
+                    cells = d3.selectAll(feb);
                 }
                 else{
                     cells = d3.selectAll(daysLonger);
@@ -196,6 +238,94 @@
                     .attr("font-family", "georgia")
                     .attr("fill", "black")
                     .attr("text-anchor", "middle");  
+            }
+
+            function previousYear(curYear){
+                if(curYear == "2008"){
+                    return curYear;
+                }
+                var year = parseInt(curYear);
+                return (year-1);
+            }
+
+            function nextYear(curYear){
+                if(curYear == "2013"){
+                    return curYear;
+                }
+                var year = parseInt(curYear);
+                return (year+1);
+            }
+
+            //Gets the previous Month for a current month and year
+            function previousMonth(curMonth, curYear){
+                if(curMonth == "March"){
+                    if(curYear == "2010" || curYear == "2012" || curYear == "2013"){
+                        return curMonth;
+                    }
+                }
+                if(curYear == "2011"){
+                    if(curMonth == "February"){
+                        return curMonth;
+                    }
+                    if(curMonth == "March"){
+                        return "February";
+                    }
+                }
+                if(curYear == "2008" && curMonth == "April" || curYear == "2009" && curMonth == "April"){
+                    return curMonth;
+                }
+                if(curMonth == "February"){
+                    return curMonth;
+                }
+                if(curMonth == "July"){
+                    return "June";
+                }
+                if(curMonth == "June"){
+                    return "May";
+                }
+                if(curMonth == "May"){
+                    return "April";
+                }
+                if(curMonth == "April"){
+                    return "March";
+                }                
+            }
+
+            //Gets the next Month for a current month and year
+            function nextMonth(curMonth, curYear){
+                if(curYear == "2011" && curMonth == "May"){
+                    return curMonth;
+                }
+                if(curYear == "2011" && curMonth == "June"){
+                    return curMonth;
+                }
+                if(curMonth == "July"){
+                    return curMonth;
+                }
+                if(curMonth == "February"){
+                    return "March";
+                }
+                if(curMonth == "March"){
+                    return "April";
+                }
+                if(curMonth == "April"){
+                    return "May";
+                }
+                if(curMonth == "May"){
+                    return "June";
+                }
+                if(curMonth == "June"){
+                    return "July";
+                }                                       
+            }
+
+            //Data not reading properly atm
+            function checkGames(){
+                //console.log(dataFile2010);
+                // d3.selectAll(dataFile2010)
+                //     .each(function(d,i){
+                //     console.log(d.date);
+                // });
             }
 
             var buttWid = width * 0.1;
