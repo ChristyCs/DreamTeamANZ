@@ -71,7 +71,13 @@
                     .attr("height", height*0.05)
                     .attr("fill",("rgb(151,255,255)"));
 
-
+                    svg.append("image")
+                        .attr("preserveAspectRatio","none")
+                        .attr("xlink:href","images/CalendarIcon.png")
+                        .attr("x",0)
+                        .attr("y",height*0.1)
+                        .attr("width",width * 0.04)
+                        .attr("height",height * 0.05)
 
                     svg.append("image")
                         .attr("preserveAspectRatio","none")
