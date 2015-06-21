@@ -35,7 +35,6 @@
                 console.log(file);
             }
 
-
             var width = window.innerWidth;
             var height = window.innerHeight;
 
@@ -157,7 +156,7 @@
             var rectHeight = height * (1/6)
 
             addInfoRects("About", "", width * 0.05, height * 0.7);
-            addInfoRects("Venue", "", width * 0.35, height * 0.7);
+            addInfoRects("Venue", "Brisbane Convention and Exhibition Centre", width * 0.35, height * 0.7);
             addInfoRects("Seasons", "", width * 0.65, height * 0.7);
 
             function addInfoRects(title, text, x, y){
@@ -168,7 +167,18 @@
                 .attr("y",y)
                 .attr("width", rectWidth)
                 .attr("height", rectHeight)
+                .attr("stroke", "black")
                 .attr("fill", "white")
+                .on("mouseover", function(){
+                  d3.select(this)
+                    .transition()
+                    .attr("fill", "grey")
+                })
+                .on("mouseout", function(){
+                  d3.select(this)
+                    .transition()
+                    .attr("fill", "white")
+                })
                 .on("mousedown", function(){
                   if(!clicked){
                   d3.select(this)
@@ -201,7 +211,7 @@
                   .attr("fill", "black")
               }
 
-
+              console.log(dataFile2008);
 
         </script>
     </body>
