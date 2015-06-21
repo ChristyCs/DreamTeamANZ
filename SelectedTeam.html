@@ -30,9 +30,6 @@
                 });
             }
 
-
-
-
            testData(file);
             function testData(file){
                 console.log(file);
@@ -156,19 +153,17 @@
 
             var g = svg.append("g")
 
-            var rectWidth = width * (1/6)
-            var rectHeight = height * (1/4)
+            var rectWidth = width * (1/9)
+            var rectHeight = height * (1/6)
 
             addInfoRects("About", "", width * 0.05, height * 0.7);
             addInfoRects("Venue", "", width * 0.35, height * 0.7);
             addInfoRects("Seasons", "", width * 0.65, height * 0.7);
 
             function addInfoRects(title, text, x, y){
+              var clicked = false;
 
-
-            var clicked = false;
-
-            var seasonsRect = g.append("rect")
+              var seasonsRect = g.append("rect")
                 .attr("x",x)
                 .attr("y",y)
                 .attr("width", rectWidth)
@@ -179,8 +174,8 @@
                   d3.select(this)
                     .transition()
                     .attr("x", 0)
-                    .attr("y", 0)
-                    .attr("width", width)
+                    .attr("y", height * 0.15)
+                    .attr("width", width - buttWid)
                     .attr("height", height)
 
                   clicked = true;
@@ -200,7 +195,7 @@
                   //.attr("id", "button")
                   .text(title)
                   .attr("x", x)
-                  .attr("y", y)
+                  .attr("y", y + (rectHeight * 0.5))
                   .attr("font-size", 16)
                   .attr("font-family", "georgia")
                   .attr("fill", "black")
