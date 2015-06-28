@@ -5,51 +5,81 @@
         <title>Calendar</title>
         <!--<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>-->
         <script src="d3.js"></script>
+        <script type="text/javascript" src="data.js"></script>
     </head>
+
     <body style = "margin-top: 0px; margin-left: 0px">
         <script type="text/javascript">
 
             // Round,Date,Time,Home Team,Score,Away Team,Venue
-            var dataFile2008 = readCSV("ANZChampionshipResults/2008-Table1.csv");
-            var dataFile2009 = readCSV("ANZChampionshipResults/2009-Table1.csv");
-            var dataFile2010 = readCSV("ANZChampionshipResults/2010-Table1.csv");
-            var dataFile2011 = readCSV("ANZChampionshipResults/2011-Table1.csv");
-            var dataFile2012 = readCSV("ANZChampionshipResults/2012-Table1.csv");
-            var dataFile2013 = readCSV("ANZChampionshipResults/2013-Table1.csv");
-            var selectedDate = "Friday 13th October 2010";
 
+            var currentYear = "2010";
+            var currentMonth = "June";
+            var selectedDay = "";
+            var width = window.innerWidth;
+            var height = window.innerHeight;
+            var buttWid;
+            var buttHgt;
+            var buttY;
+            var svg;
 
-            function readCSV(fname){
+            var file = new data();
+            setupData();
+
+            function setupData(){
+                file.set2008(readCSV("ANZChampionshipResults/2008-Table1.csv",2008,false));
+                file.set2009(readCSV("ANZChampionshipResults/2009-Table1.csv",2009,false));
+                file.set2010(readCSV("ANZChampionshipResults/2010-Table1.csv",2010,false));
+                file.set2011(readCSV("ANZChampionshipResults/2011-Table1.csv",2011,false));
+                file.set2012(readCSV("ANZChampionshipResults/2012-Table1.csv",2012,false));
+                file.set2013(readCSV("ANZChampionshipResults/2013-Table1.csv",2013,true));
+             }
+
+            function readCSV(fname, year, setup){
                 d3.csv(fname, function(d) {
-                return readData(d);
+                var season = file.readData(d);
+                //console.log(season);
+                file.allData.push(season);
+                return season;
             }, function(error, rows) {
-                return rows;
+                //console.log(rows);
+                //return rows;
+                testData(rows, year, setup);
                 });
             }
 
-            function readData(d){
-                return {
-                    round: +d.Round,
-                    date: d.Date,
-                    time: d.Time,
-                    hometeam: d['Home Team'],
-                    score: d.Score,
-                    awayteam: d['Away Team'],
-                    venue: d.Venue
-                 };
+            function testData(data, year, setup){
+                if(year == 2008){
+                    file.set2008(data);                  
+                }
+                else if(year == 2009){
+                    file.set2009(data);
+                }
+                else if(year == 2010){
+                    file.set2010(data);
+                }
+                else if(year == 2011){
+                    file.set2011(data);
+                }
+                else if(year == 2012){
+                    file.set2012(data);
+                }
+                else if(year == 2013){
+                    file.set2013(data);
+                }
+                if(setup){
+                    width = window.innerWidth;
+                    height = window.innerHeight;
+
+
+                    svg = d3.select("body")
+                        .append("svg")
+                        .attr("width",width)
+                        .attr("height",height);
+
+                    setupPage();
+                }                          
             }
-
-
-            var width = window.innerWidth;
-            var height = window.innerHeight;
-
-
-            var svg = d3.select("body")
-                .append("svg")
-                .attr("width",width)
-                .attr("height",height);
-
-            setupPage();
 
             function setupPage(){
                 svg.append("rect")
@@ -74,42 +104,36 @@
                     .attr("width",width)
                     .attr("height",height)
                     .style("opacity", 0.8);
+
+                var g = svg.append("g");
+
+                g.append("rect")
+                    .attr("x",width*0.2)
+                    .attr("y",height*0.25)
+                    .attr("width", width/2)
+                    .attr("height", height-(height/3))
+                    .attr("fill", "white");
+
+                buttWid = width * 0.1;
+                buttHgt = height * 0.1;
+                buttY = height *0.2;
+                addButton(width - buttWid, height *0.2, buttWid, buttHgt, "rgb(255,255,192)", "Homepage", "Homepage.html");
+                addButton(width - buttWid, buttY + (buttHgt*1.5), buttWid, buttHgt, "rgb(238,238,128)", "Teams", "Teams.html");
+
+                addButton(width - buttWid, buttY + (buttHgt*3), buttWid, buttHgt, "rgb(205,205,64)", "Standings", "Standings.html");
+                addButton(width - buttWid, buttY + (buttHgt*4.5), buttWid, buttHgt, "rgb(171,171,32)", "Venues", "Venues.html");
+                addButton(width - buttWid, buttY + (buttHgt*6), buttWid, buttHgt, "rgb(139,139,0)", "Calendar", "Calendar.html");
             }
 
-            var g = svg.append("g");
+            //Data not reading properly atm
+            function checkGames(){
 
-            g.append("rect")
-                .attr("x",width*0.2)
-                .attr("y",height*0.25)
-                .attr("width", width/2)
-                .attr("height", height-(height/3))
-                .attr("fill", "white");
+            }
 
-            g.append("text")
-                .text(selectedDate)
-                .attr("x",width*0.2+(width/4))
-                .attr("y",height*0.3)
-                .attr("font-family", "Arial Black")
-                .attr("font-size", "30px")
-                .attr("font-weight", "bold")
-                .style("text-decoration","underline")
-                .style("text-anchor","middle");
-
-
-            var buttWid = width * 0.1;
-            var buttHgt = height * 0.1;
-            var buttY = height *0.2;
-            addButton(width - buttWid, height *0.2, buttWid, buttHgt, "rgb(255,255,192)", "Homepage");
-            addButton(width - buttWid, buttY + (buttHgt*1.5), buttWid, buttHgt, "rgb(238,238,128)", "Teams");
-
-            addButton(width - buttWid, buttY + (buttHgt*3), buttWid, buttHgt, "rgb(205,205,64)", "Standings");
-            addButton(width - buttWid, buttY + (buttHgt*4.5), buttWid, buttHgt, "rgb(171,171,32)", "Venues");
-            addButton(width - buttWid, buttY + (buttHgt*6), buttWid, buttHgt, "rgb(139,139,0)", "Calendar");
-
-
-            function addButton(x, y, width, height, colour, buttName){
-
-                svg.append("rect")
+           function addButton(x, y, width, height, colour, buttName, link){
+                var parent = svg.append("g");
+                var rect;
+                parent.append("rect")
                     .attr("id", buttName)
                     .attr("x", x)
                     .attr("y", y)
@@ -117,48 +141,67 @@
                     .attr("height", height)
                     .attr("fill", colour)
                     .on("mouseover", function(){
+                        rect = this;
                         d3.select(this)
                             .transition()
-                            //.attr("fill", "green")
                             .attr("width", buttWid * 1.3)
                             .attr("x", x - buttWid * 0.3)
                             .attr("y", y - (0.15 * (buttHgt * 1.4)))
-                            .attr("height", buttHgt * 1.4)
+                            .attr("height", buttHgt * 1.4);
                      })
                     .on("mouseout", function(d){
                          d3.select(this)
                             .transition()
-                            //.style("fill", colour)
                             .attr("width", buttWid)
                             .attr("x", x)
                             .attr("height", height)
-                            .attr("y", y)
+                            .attr("y", y);
                     })
                     .on("mousedown", function(){
-                        window.open(buttName + ".html", "_self")
-                    })
-                    appendText(buttName, x + 5, y + (0.5*buttWid), 20);
-            }
+                        window.open(link, "_self")
+                    });
 
-            /**
-              appends text to the dialog box created in the svg
-              given the text and the x and y vals in which the
-              text will be placed
-            */
-            function appendText(text, xVal, yVal, fontsize){
-              d3.select("svg")
-                .append("text")
-                .transition()
-                  .attr("id", "button")
-                  .text(text)
-                  .attr("x", xVal)
-                  .attr("y", yVal)
-                  .attr("font-size", fontsize)
-                  .attr("font-family", "georgia")
-                  .attr("fill", "black")
-                  .attr("font-weight","bold")
-            }
+                parent.append("text")
+                        .attr("id", "button")
+                        .attr("x",  x + 10)
+                        .attr("y", y + (0.2*buttWid))
+                        .attr("fill", "black")
+                        .attr("font-family", "georgia")
+                        .attr("font-weight","bold")
+                        .style("font-size", "20px")
+                        .text(buttName)
+                        .on("mouseover", function(){
+                        d3.select(rect)
+                            .transition()
+                            .attr("width", buttWid * 1.3)
+                            .attr("x", x - buttWid * 0.3)
+                            .attr("y", y - (0.15 * (buttHgt * 1.4)))
+                            .attr("height", buttHgt * 1.4);
 
+                        d3.select(this)
+                            .transition()
+                            .attr("x", x-3 )
+                            .style("font-size", "25px");              
+                })
+                        .on("mouseout", function(d){
+                        d3.select(rect)
+                            .transition()
+                            .attr("width", buttWid)
+                            .attr("x", x)
+                            .attr("height", height)
+                            .attr("y", y);
+
+                        d3.select(this)
+                            .transition()
+                            .attr("x", x + 10)
+                            .attr("y", y + (0.2*buttWid))
+                            .attr("fill", "black")
+                            .style("font-size", "20px");
+                })
+            .on("mousedown", function(){
+               window.open(link, "_self");
+             });
+            }
         </script>
     </body>
 </html>
