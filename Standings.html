@@ -140,11 +140,11 @@
             }
 
             function seasonButtons(){
-            addButton(gap, height *0.2, buttWid, buttHgt, "rgb(255,255,192)", "Season 1(2008)", "nothing");
-            addButton(gap, buttY + (buttHgt*1.5), buttWid, buttHgt, "rgb(238,238,128)", "Season 2(2009)", "nothing");
-            addButton(gap, buttY + (buttHgt*3), buttWid, buttHgt, "rgb(205,205,64)", "Season 3(2010)", "nothing");
-            addButton(gap, buttY + (buttHgt*4.5), buttWid, buttHgt,  "rgb(171,171,32)", "Season 4(2011)", "nothing");
-            addButton(gap, buttY + (buttHgt*6), buttWid, buttHgt, "rgb(139,139,0)", "Season 5(2012)", "nothing");
+            addButton(gap, height *0.2, buttWid, buttHgt, "rgb(255,255,192)", "Season 2008", "nothing");
+            addButton(gap, buttY + (buttHgt*1.5), buttWid, buttHgt, "rgb(238,238,128)", "Season 2009", "nothing");
+            addButton(gap, buttY + (buttHgt*3), buttWid, buttHgt, "rgb(205,205,64)", "Season 2010", "nothing");
+            addButton(gap, buttY + (buttHgt*4.5), buttWid, buttHgt,  "rgb(171,171,32)", "Season 2011", "nothing");
+            addButton(gap, buttY + (buttHgt*6), buttWid, buttHgt, "rgb(139,139,0)", "Season 2012", "nothing");
             }
 
 
@@ -208,7 +208,7 @@
                     })
                     .on("mousedown", function(){
                         if(link==="nothing"){
-                        setupTable();
+                        setupTable(buttName);
                         }else {
                         window.open(link, "_self");
                         }
@@ -224,20 +224,7 @@
                         .style("font-size", "20px")
                         .text(buttName)
                         .on("mouseover", function(){
-                        if(link==="nothing"){
-                           d3.select(rect)
-                            .transition()
-                            .attr("width", buttWid * 1.3)
-                            .attr("x", x - buttWid * 0.2)
-                            .attr("y", y - (0.15 * (buttHgt * 1.4)))
-                            .attr("height", buttHgt * 1.4);
-
-                        d3.select(this)
-                            .transition()
-                            .attr("x", x-3 )
-                            .style("font-size", "20px"); 
-
-                        }else {
+                        
                         d3.select(rect)
                             .transition()
                             .attr("width", buttWid * 1.3)
@@ -249,25 +236,10 @@
                             .transition()
                             .attr("x", x-3 )
                             .style("font-size", "25px");    
-                            }          
+                                     
                 })
                         .on("mouseout", function(d){
-                        
-                        if(link==="nothing"){
-                        d3.select(rect)
-                            .transition()
-                            .attr("width", buttWid)
-                            .attr("x", x)
-                            .attr("height", height)
-                            .attr("y", y);
-
-                        d3.select(this)
-                            .transition()
-                            .attr("x", x + 10)
-                            .attr("y", y + (0.2*buttWid))
-                            .attr("fill", "black")
-                            .style("font-size", "15px");
-                        }else{
+                       
                         d3.select(rect)
                             .transition()
                             .attr("width", buttWid)
@@ -281,11 +253,11 @@
                             .attr("y", y + (0.2*buttWid))
                             .attr("fill", "black")
                             .style("font-size", "20px");
-                        }
+                        
                 })
             .on("mousedown", function(){
                if(link==="nothing"){
-                setupTable();
+                setupTable(buttName);
                }else {
                window.open(link, "_self");
                 }
@@ -294,8 +266,66 @@
 
             }
 
-             function setupTable(){
-                console.log(file.data2008[0]);
+             function setupTable(season){
+                var seasonInfo = getInfo(season);
+                var top = buttWid*2 - gap;
+                var side = height*0.2;
+                var tableH = height*(9/12);
+                var tableW = width*(2/3);
+                var cellH = tableH/10;
+                var cellW = tableW/5;
+                svg.append("rect")
+                    .attr("x", top)
+                    .attr("y", side)
+                    .attr("width", tableW)
+                    .attr("height", tableH)
+                    .attr("fill", "white");
+
+
+                for(var a=0; a<10; a++){
+                    for(var b=0; b<5; b++){
+                        if(a===0){
+                            console.log("less than 1");
+                        svg.append("rect")
+                            .attr("x", top + cellW*b)
+                            .attr("y", side + cellH*a)
+                            .attr("width", cellW)
+                            .attr("height", cellH*2)
+                            .attr("fill", "white")
+                            .attr("stroke", "black");
+                        }else {
+                        svg.append("rect")
+                            .attr("x", top + cellW*b)
+                            .attr("y", side + cellH*(a+1))
+                            .attr("width", cellW)
+                            .attr("height", cellH)
+                            .attr("fill", "white")
+                            .attr("stroke", "black");
+                        }
+                    }
+                }
+    
+            }
+
+            function getInfo(season){
+                var currentInfo;
+                if(season==="Season 2008"){
+                    currentInfo = file.data2008;
+                }else if(season==="Season 2009"){
+                     currentInfo = file.data2009;
+                }else if(season==="Season 2010"){
+                     currentInfo = file.data2010;
+                }else if(season==="Season 2011"){
+                     currentInfo = file.data2011;
+                }else if(season==="Season 2012"){
+                     currentInfo = file.data2012;
+                }else if(season==="Season 2013"){
+                     currentInfo = file.data2013;
+                }
+
+                var wins = [];
+                
+                console.log(currentInfo.length);
             }
         </script>
     </body>
