@@ -8,6 +8,32 @@
         <script type="text/javascript" src="data.js"></script>
     </head>
     <body style = "margin-top: 0px; margin-left: 0px; margin-bottom: 0px">
+    <style>
+
+.bar {
+  fill: steelblue;
+}
+
+.bar:hover {
+  fill: brown;
+}
+
+.axis {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+</style>
         <script type="text/javascript">
             var svg;
             var width;
@@ -34,14 +60,14 @@
                 file.allData.push(season);
                 return season;
             }, function(error, rows) {
-                console.log(rows);
+                //console.log(rows);
                 //return rows;
                 testData(rows,year, setup);
                 });
             }
 
             function testData(data, year, setup){
-                console.log("year "+year);
+                //console.log("year "+year);
                 if(year == 2008){
                     file.set2008(data);
                     //console.log(file.data2008[0]);
@@ -72,7 +98,7 @@
                    // console.log(file.data2013[0]);
                     //console.log(file.data2013[40]);
                 }
-                console.log(setup);
+                //console.log(setup);
                 if(setup){
                     width = window.innerWidth;
                     height = window.innerHeight;
@@ -126,6 +152,138 @@
                 //     .attr("width",width)
                 //     .attr("height",height-(height*0.15))
                 //     .attr("fill",("rgb(99,99,99)"));
+
+
+                //calculate each teams winnings
+                var wins = [];
+                for (var i = 0; i < 10; i++){
+                    wins.push(0);
+                    console.log(wins[i])
+                }
+
+                console.log("data" + JSON.stringify(file.data2008));
+
+                checkYear(file.data2008)
+                checkYear(file.data2009)
+                checkYear(file.data2010)
+                checkYear(file.data2011)
+                checkYear(file.data2012)
+                checkYear(file.data2013)
+
+                function checkYear(year){
+                var year = file.data2008;
+                for (var i = 0; i < year.length; i++){
+                    //console.log(year[i].hometeam)
+
+                    checkWin(year[i], 'Queensland Firebirds', 0);
+                    checkWin(year[i], 'New South Wales Swifts', 1);
+                    checkWin(year[i], 'West Coast Fever', 2);
+                    checkWin(year[i], 'Melbourne Vixens', 3);
+                    checkWin(year[i], 'Adelaide Thunderbirds', 4);
+                    checkWin(year[i], 'Northern Mystics', 5);
+                    checkWin(year[i], 'Waikato Bay of Plenty Magic', 6);
+                    checkWin(year[i], 'Southern Steel', 7);
+                    checkWin(year[i], 'Central Pulse', 8);
+                    checkWin(year[i], 'Canterbury Tactix', 9);
+
+                    
+                }
+                }
+
+                function checkWin(year, name, winsIndex){
+                    var score = year.score.split('–');
+                    //found queenslands game
+                    if (year.hometeam == name){
+                       
+                        if (score[0] > score[1]){
+                            wins[winsIndex]++;
+                        }                        
+                    }
+                    if (year.awayteam == name){
+                       
+                        if (score[1] > score[0]){
+                            wins[winsIndex]++;
+                        }                        
+                    }
+                }
+
+                 for (var i = 0; i < wins.length; i++){
+                    console.log(wins[i]);
+                 }
+                // console.log('queenland wins ' +wins[0]);
+
+
+//                 var margin = {top: 20, right: 20, bottom: 30, left: 40},
+//     lineWidth = 960 - margin.left - margin.right,
+//     lineHeight = 500 - margin.top - margin.bottom;
+
+// var x = d3.scale.ordinal()
+//     .rangeRoundBands([0, lineWidth], .1);
+
+// var y = d3.scale.linear()
+//     .range([lineHeight, 0]);
+
+// var xAxis = d3.svg.axis()
+//     .scale(x)
+//     .orient("bottom");
+
+// var yAxis = d3.svg.axis()
+//     .scale(y)
+//     .orient("left")
+// //     .ticks(10, "%");
+
+
+// svg.append("g")
+// .attr()
+// .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+// // d3.csv("", type, function(error, data) {
+// //   if (error) throw error;
+
+//   x.domain(data.map(function(d) { return d.letter; }));
+//   y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
+
+//   svg.append("g")
+//       .attr("class", "x axis")
+//       .attr("transform", "translate(0," + height + ")")
+//       .call(xAxis);
+
+//   svg.append("g")
+//       .attr("class", "y axis")
+//       .call(yAxis)
+//     .append("text")
+//       .attr("transform", "rotate(-90)")
+//       .attr("y", 6)
+//       .attr("dy", ".71em")
+//       .style("text-anchor", "end")
+//       .text("Frequency");
+
+//   svg.selectAll(".bar")
+//       .data(data)
+//     .enter().append("rect")
+//       .attr("class", "bar")
+//       .attr("x", function(d) { return x(d.letter); })
+//       .attr("width", x.rangeBand())
+//       .attr("y", function(d) { return y(d.frequency); })
+//       .attr("height", function(d) { return height - y(d.frequency); });
+// });
+
+// function type(d) {
+//   d.frequency = +d.frequency;
+//   return d;
+// }
+
+
+
+
+
+
+
+
+
+
+
 
             buttWid = width * 0.1;
             buttHgt = height * 0.1;
