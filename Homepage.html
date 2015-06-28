@@ -230,6 +230,7 @@
                   .attr("font-size", 24)
                   .attr("font-family", "georgia")
                   .attr("fill", "black")
+                  .attr("font-weight", "bold")
                   
                   
                 svg.append("text")
@@ -295,22 +296,16 @@
                     }
                 }
 
-              
-
-
-
-
-
-
             buttWid = width * 0.1;
             buttHgt = height * 0.1;
             buttY = height *0.2;
+            
             addButton(width - buttWid, height *0.2, buttWid, buttHgt, "rgb(255,255,192)", "Homepage", "Homepage.html");
-            addButton(width - buttWid, buttY + (buttHgt*1.5), buttWid, buttHgt, "rgb(238,238,128)", "Teams", "Teams.html");
+            addButton(width - buttWid, buttY + (buttHgt*1.5), buttWid, buttHgt, "rgb(242,218,62)", "Teams", "Teams.html");
 
-            addButton(width - buttWid, buttY + (buttHgt*3), buttWid, buttHgt, "rgb(205,205,64)", "Standings", "Standings.html");
-            addButton(width - buttWid, buttY + (buttHgt*4.5), buttWid, buttHgt, "rgb(171,171,32)", "Venues", "Venues.html");
-            addButton(width - buttWid, buttY + (buttHgt*6), buttWid, buttHgt, "rgb(139,139,0)", "Calendar", "Calendar.html");
+            addButton(width - buttWid, buttY + (buttHgt*3), buttWid, buttHgt, "rgb(245,213,7)", "Standings", "Standings.html");
+            addButton(width - buttWid, buttY + (buttHgt*4.5), buttWid, buttHgt, "rgb(204,153,0)", "Venues", "Venues.html");
+            addButton(width - buttWid, buttY + (buttHgt*6), buttWid, buttHgt, "rgb(153,102,0)", "Calendar", "Calendar.html");
             }
 
            function addButton(x, y, width, height, colour, buttName, link){
@@ -365,8 +360,7 @@
 
                         d3.select(this)
                             .transition()
-                            .attr("x", x-3 )
-                            .attr("fill", "yellow")
+                            .attr("x", x-3 )                            
                             .style("font-size", "25px");              
                 })
                         .on("mouseout", function(d){

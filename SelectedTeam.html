@@ -153,11 +153,11 @@
             var rectHeight = height * (1/2)
 
             addInfoRects("About", "", width * 0.05, height * 0.3);
-            addInfoRects("Venue", "", width * 0.35, height * 0.3);
-            addInfoRects("Seasons", "", width * 0.65, height * 0.3);
+            addInfoRects("Venues", "", width * 0.35, height * 0.3);
+            addInfoRects("Standings", "", width * 0.65, height * 0.3);
 
             function addInfoRects(title, text, x, y){
-              var clicked = false;
+              // var clicked = false;
 
               var seasonsRect = g.append("rect")
                 .attr("x",x)
@@ -176,30 +176,9 @@
                     .transition()
                     .attr("fill", "white")
                 })
-                .on("mousedown", function(){
-                  if(!clicked){
-                  d3.select(this)
-                    .transition()
-                    .attr("x", 0)
-                    .attr("y", height * 0.15)
-                    .attr("width", width - buttWid)
-                    .attr("height", height)
-
-                  clicked = true;
-                 
-
-                  }
-                  else{
-                    d3.select(this)
-                      .transition()
-                      .attr("x",x)
-                      .attr("y",y)
-                      .attr("width", rectWidth)
-                      .attr("height", rectHeight)
-
-                    clicked = false;
-                  }
-                })
+                // .on("mousedown", function(){                  
+               // window.open(title+".html", "_self");            
+               //  })
                 g.append("text")
                   
                   .text(title)
@@ -233,12 +212,13 @@
            
 
             function navigationButtons(){
+            
             addButton(width - buttWid, height *0.2, buttWid, buttHgt, "rgb(255,255,192)", "Homepage", "Homepage.html");
-            addButton(width - buttWid, buttY + (buttHgt*1.5), buttWid, buttHgt, "rgb(238,238,128)", "Teams", "Teams.html");
+            addButton(width - buttWid, buttY + (buttHgt*1.5), buttWid, buttHgt, "rgb(242,218,62)", "Teams", "Teams.html");
 
-            addButton(width - buttWid, buttY + (buttHgt*3), buttWid, buttHgt, "rgb(205,205,64)", "Standings", "Standings.html");
-            addButton(width - buttWid, buttY + (buttHgt*4.5), buttWid, buttHgt, "rgb(171,171,32)", "Venues", "Venues.html");
-            addButton(width - buttWid, buttY + (buttHgt*6), buttWid, buttHgt, "rgb(139,139,0)", "Calendar", "Calendar.html");
+            addButton(width - buttWid, buttY + (buttHgt*3), buttWid, buttHgt, "rgb(245,213,7)", "Standings", "Standings.html");
+            addButton(width - buttWid, buttY + (buttHgt*4.5), buttWid, buttHgt, "rgb(204,153,0)", "Venues", "Venues.html");
+            addButton(width - buttWid, buttY + (buttHgt*6), buttWid, buttHgt, "rgb(153,102,0)", "Calendar", "Calendar.html");
              }
 
             function addButton(x, y, width, height, colour, buttName, link){
@@ -293,8 +273,8 @@
 
                         d3.select(this)
                             .transition()
-                            .attr("x", x-3 )
-                            .attr("fill", "yellow")
+                            .attr("x", x-3)
+                            
                             .style("font-size", "25px");              
                 })
                         .on("mouseout", function(d){
