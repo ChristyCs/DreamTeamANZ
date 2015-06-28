@@ -9,82 +9,83 @@
     </head>
     <body style = "margin-top: 0px; margin-left: 0px; margin-bottom: 0px">
         <script type="text/javascript">
+            var svg;
+            var width;
+            var height;
+            var buttWid;
+            var buttHgt;
+            var buttY;
 
-           var file = new data();
-           var seasonIter=[];
-           setupData();
-           function setupData(){
-           file.set2008(readCSV("ANZChampionshipResults/2008-Table1.csv"));
-           console.log(seasonIter===undefined);
-           file.set2008(seasonIter);
-           file.set2009(readCSV("ANZChampionshipResults/2009-Table1.csv"));
-           file.set2009(seasonIter);
-           file.set2010(readCSV("ANZChampionshipResults/2010-Table1.csv"));
-           file.set2011(readCSV("ANZChampionshipResults/2011-Table1.csv"));
-           file.set2012(readCSV("ANZChampionshipResults/2012-Table1.csv"));
-           file.set2013(readCSV("ANZChampionshipResults/2013-Table1.csv"));
+            var file = new data();
+            setupData();
+
+        function setupData(){
+           file.set2008(readCSV("ANZChampionshipResults/2008-Table1.csv",2008,false));
+           file.set2009(readCSV("ANZChampionshipResults/2009-Table1.csv",2009,false));
+           file.set2010(readCSV("ANZChampionshipResults/2010-Table1.csv",2010,false));
+           file.set2011(readCSV("ANZChampionshipResults/2011-Table1.csv",2011,false));
+           file.set2012(readCSV("ANZChampionshipResults/2012-Table1.csv",2012,false));
+           file.set2013(readCSV("ANZChampionshipResults/2013-Table1.csv",2013,true));
          }
-         function readCSV(fname){
+         function readCSV(fname, year, setup){
                 d3.csv(fname, function(d) {
                 var season = file.readData(d);
+                //console.log(season);
                 file.allData.push(season);
-                seasonIter=season;
                 return season;
             }, function(error, rows) {
-                seasonIter=rows;
-                return rows;
+                console.log(rows);
+                //return rows;
+                testData(rows,year, setup);
                 });
             }
 
+            function testData(data, year, setup){
+                console.log("year "+year);
+                if(year == 2008){
+                    file.set2008(data);
+                    //console.log(file.data2008[0]);
+                    //console.log(file.data2008[40]);                    
+                }
+                else if(year == 2009){
+                    file.set2009(data);
+                    //console.log(file.data2009[0]);
+                    //console.log(file.data2009[40]);
+                }
+                else if(year == 2010){
+                    file.set2010(data);
+                   // console.log(file.data2010[0]);
+                    //console.log(file.data2010[40]);
+                }
+                else if(year == 2011){
+                    file.set2011(data);
+                    //console.log(file.data2011[0]);
+                    //console.log(file.data2011[40]);
+                }
+                else if(year == 2012){
+                    file.set2012(data);
+                    //console.log(file.data2012[0]);
+                   // console.log(file.data2012[40]);
+                }
+                else if(year == 2013){
+                    file.set2013(data);
+                   // console.log(file.data2013[0]);
+                    //console.log(file.data2013[40]);
+                }
+                console.log(setup);
+                if(setup){
+                    width = window.innerWidth;
+                    height = window.innerHeight;
 
 
+                    svg = d3.select("body")
+                        .append("svg")
+                        .attr("width",width)
+                        .attr("height",height);
 
-           testData(file);
-            function testData(file){
-                console.log(file);
-                console.log(file.allData.length);
+                    setupPage();
+                }                          
             }
-
-
-            //Round,Date,Time,Home Team,Score,Away Team,Venue
-            // var dataFile2008 = readCSV("ANZChampionshipResults/2008-Table1.csv");
-            // var dataFile2009 = readCSV("ANZChampionshipResults/2009-Table1.csv");
-            // var dataFile2010 = readCSV("ANZChampionshipResults/2010-Table1.csv");
-            // var dataFile2011 = readCSV("ANZChampionshipResults/2011-Table1.csv");
-            // var dataFile2012 = readCSV("ANZChampionshipResults/2012-Table1.csv");
-            // var dataFile2013 = readCSV("ANZChampionshipResults/2013-Table1.csv");
-
-
-            // function readCSV(fname){
-            //     d3.csv(fname, function(d) {
-            //     return readData(d);
-            // }, function(error, rows) {
-            //     return rows;
-            //     });
-            // }
-
-            // function readData(d){
-            //     return {
-            //         round: +d.Round,
-            //         date: d.Date,
-            //         time: d.Time,
-            //         hometeam: d['Home Team'],
-            //         score: d.Score,
-            //         awayteam: d['Away Team'],
-            //         venue: d.Venue
-            //      };
-            // }
-
-            var width = window.innerWidth;
-            var height = window.innerHeight;
-
-
-            var svg = d3.select("body")
-                .append("svg")
-                .attr("width",width)
-                .attr("height",height);
-
-            setupPage();
 
             function setupPage(){
                 svg.append("rect")
@@ -124,23 +125,19 @@
                     .attr("width",width)
                     .attr("height",height-(height*0.15))
                     .attr("fill",("rgb(99,99,99)"));
-            }
 
-
-
-            var buttWid = width * 0.1;
-            var buttHgt = height * 0.1;
-            var buttY = height *0.2;
+            buttWid = width * 0.1;
+            buttHgt = height * 0.1;
+            buttY = height *0.2;
             addButton(width - buttWid, height *0.2, buttWid, buttHgt, "rgb(255,255,192)", "Homepage");
             addButton(width - buttWid, buttY + (buttHgt*1.5), buttWid, buttHgt, "rgb(238,238,128)", "Teams");
 
             addButton(width - buttWid, buttY + (buttHgt*3), buttWid, buttHgt, "rgb(205,205,64)", "Standings");
             addButton(width - buttWid, buttY + (buttHgt*4.5), buttWid, buttHgt, "rgb(171,171,32)", "Venues");
             addButton(width - buttWid, buttY + (buttHgt*6), buttWid, buttHgt, "rgb(139,139,0)", "Calendar");
+            }
 
-
-            function addButton(x, y, width, height, colour, buttName){
-
+            function addButton (x, y, width, height, colour, buttName){
                 svg.append("rect")
                     .attr("id", buttName)
                     .attr("x", x)
