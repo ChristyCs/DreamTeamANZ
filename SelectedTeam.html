@@ -78,7 +78,18 @@
 
             setupPage();
 
-            //appendText("Queensland Firebirds", width/2, 20, 24)
+            // appendText("Queensland Firebirds", width/2, 20, 24)
+            d3.select("svg")
+                .append("text")
+                // .transition()
+                  .attr("id", "title")
+                  .text("Queensland Firebirds")
+                  .attr("x", width/2.5)
+                  .attr("y", height*0.07)
+                  .attr("font-size", 40)
+                  .attr("font-family", "georgia")
+                  .attr("fill", "black")
+
 
             function setupPage(){
                 svg.append("rect")
@@ -138,12 +149,12 @@
 
             var g = svg.append("g")
 
-            var rectWidth = width * (1/9)
-            var rectHeight = height * (1/6)
+            var rectWidth = width * (1/4)
+            var rectHeight = height * (1/2)
 
-            addInfoRects("About", "", width * 0.05, height * 0.7);
-            addInfoRects("Venue", "Brisbane Convention and Exhibition Centre", width * 0.35, height * 0.7);
-            addInfoRects("Seasons", "", width * 0.65, height * 0.7);
+            addInfoRects("About", "", width * 0.05, height * 0.3);
+            addInfoRects("Venue", "", width * 0.35, height * 0.3);
+            addInfoRects("Seasons", "", width * 0.65, height * 0.3);
 
             function addInfoRects(title, text, x, y){
               var clicked = false;
@@ -175,72 +186,7 @@
                     .attr("height", height)
 
                   clicked = true;
-                  d3.csv("ANZChampionshipResults/2008-Table1.csv", function(d) {                 
-                    return readData(d);
-                  }, function(error, rows) { 
-                    //console.log(JSON.stringify(rows)); 
-                    for (var i = 0; i < rows.length; i++){
-                        console.log(rows[i].date)
-                    }                  
-                    return rows;     
-
-
-
-                    // PIE CHART
-                    var w = 960,
-                    h = 500,
-                    radius = Math.min(w, h) / 2;
-
-var color = d3.scale.category20();
-
-var pie = d3.layout.pie()
-    .value(function(d) { return d.apples; })
-    .sort(null);
-
-var arc = d3.svg.arc()
-    .innerRadius(radius - 100)
-    .outerRadius(radius - 20);
-
- svg
-    .attr("width", width)
-    .attr("height", height)
-  .append("g")
-    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-d3.tsv("data.tsv", type, function(error, data) {
-  var path = svg.datum(data).selectAll("path")
-      .data(pie)
-    .enter().append("path")
-      .attr("fill", function(d, i) { return color(i); })
-      .attr("d", arc);
-
-  d3.selectAll("input")
-      .on("change", change);
-
-  var timeout = setTimeout(function() {
-    d3.select("input[value=\"oranges\"]").property("checked", true).each(change);
-  }, 2000);
-
-  function change() {
-    var value = this.value;
-    clearTimeout(timeout);
-    pie.value(function(d) { return d[value]; }); // change the value function
-    path = path.data(pie); // compute the new angles
-    path.attr("d", arc); // redraw the arcs
-  }
-});
-
-function type(d) {
-  d.apples = +d.apples;
-  d.oranges = +d.oranges;
-  return d;
-}
-
-
-
-                  });
-                    
-
+                 
 
                   }
                   else{
@@ -255,13 +201,25 @@ function type(d) {
                   }
                 })
                 g.append("text")
-                  //.attr("id", "button")
+                  
                   .text(title)
                   .attr("x", x)
-                  .attr("y", y + (rectHeight * 0.5))
-                  .attr("font-size", 16)
+                  .attr("y", y + (rectHeight * 0.05))
+                  .attr("font-size", 22)
                   .attr("font-family", "georgia")
                   .attr("fill", "black")
+                  .attr("font-weight", "bold")
+
+
+                g.append("text")
+                  
+                  .text(text)
+                  .attr("x", x)
+                  .attr("y", y + (rectHeight * 0.1))
+                  .attr("font-size", 20)
+                  .attr("font-family", "georgia")
+                  .attr("fill", "black")
+                  
               }
 
               // NAV BUTTONS

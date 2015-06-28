@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Project</title>
+        <!--<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>-->
+        <script src="d3.js"></script>
+        <script type="text/javascript" src="data.js"></script>
+    </head>
+    <body style = "margin-top: 0px; margin-left: 0px; margin-bottom: 0px">
+    
+    <style>
+
+.bar {
+  fill: steelblue;
+}
+
+.bar:hover {
+  fill: brown;
+}
+
+.axis {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+</style>
+    <script src="Chart.js"></script>
+        <script type="text/javascript">
+            var svg;
+            var width;
+            var height;
+            var buttWid;
+            var buttHgt;
+            var buttY;
+
+            var file = new data();
+            setupData();
+
+        function setupData(){
+           file.set2008(readCSV("ANZChampionshipResults/2008-Table1.csv",2008,false));
+           file.set2009(readCSV("ANZChampionshipResults/2009-Table1.csv",2009,false));
+           file.set2010(readCSV("ANZChampionshipResults/2010-Table1.csv",2010,false));
+           file.set2011(readCSV("ANZChampionshipResults/2011-Table1.csv",2011,false));
+           file.set2012(readCSV("ANZChampionshipResults/2012-Table1.csv",2012,false));
+           file.set2013(readCSV("ANZChampionshipResults/2013-Table1.csv",2013,true));
+         }
+         function readCSV(fname, year, setup){
+                d3.csv(fname, function(d) {
+                var season = file.readData(d);
+                //console.log(season);
+                file.allData.push(season);
+                return season;
+            }, function(error, rows) {
+                //console.log(rows);
+                //return rows;
+                testData(rows,year, setup);
+                });
+            }
+
+            function testData(data, year, setup){                
+                if(year == 2008){
+                    file.set2008(data);                                     
+                }
+                else if(year == 2009){
+                    file.set2009(data);
+                    
+                }
+                else if(year == 2010){
+                    file.set2010(data);             
+                }
+                else if(year == 2011){
+                    file.set2011(data);
+                }
+                else if(year == 2012){
+                    file.set2012(data);
+                }
+                else if(year == 2013){
+                    file.set2013(data);
+                   
+                }
+                
+                if(setup){
+                    width = window.innerWidth;
+                    height = window.innerHeight;
+
+
+                    svg = d3.select("body")
+                        .append("svg")
+                        .attr("width",width)
+                        .attr("height",height);
+
+                    setupPage();
+                }                          
+            }
+
+            function setupPage(){
+
+                //calculate each teams winnings
+                var wins = [];
+                for (var i = 0; i < 10; i++){
+                    wins.push(0);
+                    
+                }
+
+               
+
+                checkYear(file.data2008)
+                checkYear(file.data2009)
+                checkYear(file.data2010)
+                checkYear(file.data2011)
+                checkYear(file.data2012)
+                checkYear(file.data2013)
+
+                function checkYear(year){
+                var year = file.data2008;
+                for (var i = 0; i < year.length; i++){
+                    //console.log(year[i].hometeam)
+
+                    checkWin(year[i], 'Queensland Firebirds', 0);
+                    checkWin(year[i], 'New South Wales Swifts', 1);
+                    checkWin(year[i], 'West Coast Fever', 2);
+                    checkWin(year[i], 'Melbourne Vixens', 3);
+                    checkWin(year[i], 'Adelaide Thunderbirds', 4);
+                    checkWin(year[i], 'Northern Mystics', 5);
+                    checkWin(year[i], 'Waikato Bay of Plenty Magic', 6);
+                    checkWin(year[i], 'Southern Steel', 7);
+                    checkWin(year[i], 'Central Pulse', 8);
+                    checkWin(year[i], 'Canterbury Tactix', 9);
+
+                    
+                }
+                }
+
+                function checkWin(year, name, winsIndex){
+                    var score = year.score.split('–');
+                    //found queenslands game
+                    if (year.hometeam == name){
+                       
+                        if (score[0] > score[1]){
+                            wins[winsIndex]++;
+                        }                        
+                    }
+                    if (year.awayteam == name){
+                       
+                        if (score[1] > score[0]){
+                            wins[winsIndex]++;
+                        }                        
+                    }
+                }
+ 
+
+                // pie chart data
+            var pieData = [
+                {
+                    value: wins[0],
+                    color:"#FF3300",
+                    label:"Queensland Firebirds"
+                },
+                {
+                    value : wins[1],
+                    color : "#CC6600",
+                    label:"New South Wales Swifts"
+                },
+                {
+                    value : wins[2],
+                    color : "#FF8153",
+                    label:"West Coast Fever"
+                    
+                },
+                {
+                    value : wins[3],
+                    color : "#CCCC00",
+                    label:"Melbourne Vixens"                    
+                },
+                 {
+                    value : wins[4],
+                    color : "#00CCFF",
+                    label:"Adelaide Thunderbirds"
+                    
+                },
+                 {
+                    value : wins[5],
+                    color : "#33CC33",
+                    label:"Northern Mystics"
+                    
+                },
+                 {
+                    value : wins[6],
+                    color : "#3333CC",
+                    label:"Waikato Bay of Plenty Magic"
+                },
+                 {
+                    value : wins[7],
+                    color : "#339933",
+                    label:"Southern Steel"
+                },
+                 {
+                    value : wins[8],
+                    color : "#009999",
+                    label:"Central Pulse"
+                },
+                 {
+                    value : wins[9],
+                    color : "#993300",
+                    label:"Canterbury Tactix"
+                },
+            ];
+            // pie chart options
+            var pieOptions = {
+                 segmentShowStroke : false,
+                 animateScale : true
+            }
+            // get pie chart canvas
+            var countries= document.getElementById("mychart").getContext("2d");
+            // // draw pie chart
+            new Chart(countries).Pie(pieData, pieOptions);
+
+               }
+
+             </script>
+       
+        <canvas id="mychart" width="600" height="400"></canvas>
+        
+    </body>
+</html>
