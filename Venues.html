@@ -247,13 +247,80 @@
                 var totalGames = 0;
 
                 for(var i = 0; i < file.data2008.length; i++){
-                    var splitVenData = file.data2008[i].venue.split(" ");
-                    var splitVen = venue.split(" ");
-                    if(file.data2008[i].hometeam && splitVen[0] == splitVenData[0]){
-                        totalGames++;
-                        var scoreSplit = file.data2008[i].score.split("–");
-                        if(scoreSplit[0] > scoreSplit[1]){
-                            totalWins++;
+                    if(file.data2008[i].venue != undefined){
+                        var splitVenData = file.data2008[i].venue.split(" ");
+                        var splitVen = venue.split(" ");
+                        if(file.data2008[i].hometeam && splitVen[0] == splitVenData[0]){
+                            totalGames++;
+                            var scoreSplit = file.data2008[i].score.split("–");
+                            if(scoreSplit[0] > scoreSplit[1]){
+                                totalWins++;
+                            }
+                        }
+                    }   
+                }
+                for(var j = 0; j < file.data2009.length; j++){
+                    if(file.data2009[j].venue != undefined){
+                        var splitVenData = file.data2009[j].venue.split(" ");
+                        var splitVen = venue.split(" ");
+                        if(file.data2009[j].hometeam && splitVen[0] == splitVenData[0]){
+                            totalGames++;
+                            var scoreSplit = file.data2009[j].score.split("–");
+                            if(scoreSplit[0] > scoreSplit[1]){
+                                totalWins++;
+                            }
+                        }
+                    }
+                }
+                for(var k = 0; k < file.data2010.length; k++){
+                    if(file.data2010[k].venue != undefined){
+                        var splitVenData = file.data2010[k].venue.split(" ");
+                        var splitVen = venue.split(" ");
+                        if(file.data2010[k].hometeam && splitVen[0] == splitVenData[0]){
+                            totalGames++;
+                            var scoreSplit = file.data2010[k].score.split("–");
+                            if(scoreSplit[0] > scoreSplit[1]){
+                                totalWins++;
+                            }
+                        }
+                    }
+                }
+                for(var l = 0; l < file.data2011.length; l++){
+                    if(file.data2011[l].venue != undefined){
+                        var splitVenData = file.data2011[l].venue.split(" ");
+                        var splitVen = venue.split(" ");
+                        if(file.data2011[l].hometeam && splitVen[0] == splitVenData[0]){
+                            totalGames++;
+                            var scoreSplit = file.data2011[l].score.split("–");
+                            if(scoreSplit[0] > scoreSplit[1]){
+                                totalWins++;
+                            }
+                        }
+                    }
+                }
+                for(var m = 0; m < file.data2012.length; m++){
+                    if(file.data2012[m].venue != undefined){
+                        var splitVenData = file.data2012[m].venue.split(" ");
+                        var splitVen = venue.split(" ");
+                        if(file.data2012[m].hometeam && splitVen[0] == splitVenData[0]){
+                            totalGames++;
+                            var scoreSplit = file.data2012[m].score.split("–");
+                            if(scoreSplit[0] > scoreSplit[1]){
+                                totalWins++;
+                            }
+                        }
+                    }
+                }
+                for(var n = 0; n < file.data2013.length; n++){
+                    if(file.data2013[n].venue != undefined){
+                        var splitVenData = file.data2013[n].venue.split(" ");
+                        var splitVen = venue.split(" ");
+                        if(file.data2013[n].hometeam && splitVen[0] == splitVenData[0]){
+                            totalGames++;
+                            var scoreSplit = file.data2013[n].score.split("–");
+                            if(scoreSplit[0] > scoreSplit[1]){
+                                totalWins++;
+                            }
                         }
                     }
                 }
