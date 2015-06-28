@@ -37,14 +37,14 @@
                 file.allData.push(season);
                 return season;
             }, function(error, rows) {
-                console.log(rows);
+               
                 //return rows;
                 testData(rows,year, setup);
                 });
             }
 
             function testData(data, year, setup){
-                console.log("year "+year);
+                
                 if(year == 2008){
                     file.set2008(data);
                     //console.log(file.data2008[0]);
@@ -75,7 +75,7 @@
                    // console.log(file.data2013[0]);
                     //console.log(file.data2013[40]);
                 }
-                console.log(setup);
+                
                 if(setup){
                     width = window.innerWidth;
                     height = window.innerHeight;
@@ -140,11 +140,11 @@
             }
 
             function seasonButtons(){
-            addButton(gap, height *0.2, buttWid, buttHgt, "rgb(255,255,192)", "Season 1(2008)", "");
-            addButton(gap, buttY + (buttHgt*1.5), buttWid, buttHgt, "rgb(238,238,128)", "Season 2(2009)", "");
-            addButton(gap, buttY + (buttHgt*3), buttWid, buttHgt, "rgb(205,205,64)", "Season 3(2010)", "" );
-            addButton(gap, buttY + (buttHgt*4.5), buttWid, buttHgt,  "rgb(171,171,32)", "Season 4(2011)", "");
-            addButton(gap, buttY + (buttHgt*6), buttWid, buttHgt, "rgb(139,139,0)", "Season 5(2012)", "" );
+            addButton(gap, height *0.2, buttWid, buttHgt, "rgb(255,255,192)", "Season 1(2008)", "nothing");
+            addButton(gap, buttY + (buttHgt*1.5), buttWid, buttHgt, "rgb(238,238,128)", "Season 2(2009)", "nothing");
+            addButton(gap, buttY + (buttHgt*3), buttWid, buttHgt, "rgb(205,205,64)", "Season 3(2010)", "nothing");
+            addButton(gap, buttY + (buttHgt*4.5), buttWid, buttHgt,  "rgb(171,171,32)", "Season 4(2011)", "nothing");
+            addButton(gap, buttY + (buttHgt*6), buttWid, buttHgt, "rgb(139,139,0)", "Season 5(2012)", "nothing");
             }
 
 
@@ -187,7 +187,11 @@
                             .attr("y", y);
                     })
                     .on("mousedown", function(){
-                        window.open(link, "_self")
+                        if(link==="nothing"){
+                        setupTable();
+                        }else {
+                        window.open(link, "_self");
+                        }
                     });
 
                 parent.append("text")
@@ -200,6 +204,20 @@
                         .style("font-size", "20px")
                         .text(buttName)
                         .on("mouseover", function(){
+                        if(link==="nothing"){
+                           d3.select(rect)
+                            .transition()
+                            .attr("width", buttWid * 1.3)
+                            .attr("x", x - buttWid * 0.2)
+                            .attr("y", y - (0.15 * (buttHgt * 1.4)))
+                            .attr("height", buttHgt * 1.4);
+
+                        d3.select(this)
+                            .transition()
+                            .attr("x", x-3 )
+                            .style("font-size", "25px"); 
+
+                        }else {
                         d3.select(rect)
                             .transition()
                             .attr("width", buttWid * 1.3)
@@ -210,9 +228,14 @@
                         d3.select(this)
                             .transition()
                             .attr("x", x-3 )
-                            .style("font-size", "25px");              
+                            .style("font-size", "25px");    
+                            }          
                 })
                         .on("mouseout", function(d){
+                        
+                        if(link==="nothing"){
+
+                        }else{
                         d3.select(rect)
                             .transition()
                             .attr("width", buttWid)
@@ -226,14 +249,22 @@
                             .attr("y", y + (0.2*buttWid))
                             .attr("fill", "black")
                             .style("font-size", "20px");
+                        }
                 })
             .on("mousedown", function(){
+               if(link==="nothing"){
+                setupTable();
+               }else {
                window.open(link, "_self");
+                }
              });
             
 
             }
 
+             function setupTable(){
+                console.log("working");
+            }
         </script>
     </body>
 </html>
