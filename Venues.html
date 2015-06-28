@@ -5,7 +5,7 @@
         <title>Venues</title>
         <!--<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>-->
         <script src="d3.js"></script>
-         <script type="text/javascript" src="data.js"></script>
+        <script type="text/javascript" src="data.js"></script>
     </head>
     <body style = "margin-top: 0px; margin-left: 0px">
         <script type="text/javascript">
@@ -33,71 +33,43 @@
          function readCSV(fname, year, setup){
                 d3.csv(fname, function(d) {
                 var season = file.readData(d);
-                //console.log(season);
                 file.allData.push(season);
                 return season;
             }, function(error, rows) {
-                console.log(rows);
-                //return rows;
                 testData(rows,year, setup);
                 });
             }
 
             function testData(data, year, setup){
-                console.log("year "+year);
                 if(year == 2008){
-                    file.set2008(data);
-                    //console.log(file.data2008[0]);
-                    //console.log(file.data2008[40]);                    
+                    file.set2008(data);                  
                 }
                 else if(year == 2009){
                     file.set2009(data);
-                    //console.log(file.data2009[0]);
-                    //console.log(file.data2009[40]);
                 }
                 else if(year == 2010){
                     file.set2010(data);
-                   // console.log(file.data2010[0]);
-                    //console.log(file.data2010[40]);
                 }
                 else if(year == 2011){
                     file.set2011(data);
-                    //console.log(file.data2011[0]);
-                    //console.log(file.data2011[40]);
                 }
                 else if(year == 2012){
                     file.set2012(data);
-                    //console.log(file.data2012[0]);
-                   // console.log(file.data2012[40]);
                 }
                 else if(year == 2013){
                     file.set2013(data);
-                   // console.log(file.data2013[0]);
-                    //console.log(file.data2013[40]);
                 }
-                console.log(setup);
+
                 if(setup){
                     width = window.innerWidth;
                     height = window.innerHeight;
-
 
                     svg = d3.select("body")
                         .append("svg")
                         .attr("width",width)
                         .attr("height",height);
 
-
                     setupPage();
-
-                    svg.append("text")
-                  .attr("id", "title")
-                  .text("Venues")
-                  .attr("x", width/2.5)
-                  .attr("y", height*0.07)
-                  .attr("font-size", 40)
-                  .attr("font-family", "georgia")
-                  .attr("fill", "black");
-                    //add methods here
                 }                          
             }
 
@@ -125,63 +97,177 @@
                     .attr("height",height * 0.05)
                     .style("opacity", 0.8);
 
-            svg.append("image")
-                .attr("preserveAspectRatio","none")
-                .attr("xlink:href","images/greyscale.jpg")
-                .attr("x",0)
-                .attr("y",height*0.15)
-                .attr("width",width)
-                .attr("height",height)
-                .style("opacity", 0.8);
+                svg.append("image")
+                    .attr("preserveAspectRatio","none")
+                    .attr("xlink:href","images/greyscale.jpg")
+                    .attr("x",0)
+                    .attr("y",height*0.15)
+                    .attr("width",width)
+                    .attr("height",height)
+                    .style("opacity", 0.8);
 
-                // svg.append("rect")
-                //     .attr("x",0)
-                //     .attr("y",height*0.15)
-                //     .attr("width",width)
-                //     .attr("height",height-(height*0.15))
-                //     .attr("fill",("rgb(99,99,99)"));
+                svg.append("text")
+                    .text("Venues")
+                    .attr("id", "title")
+                    .attr("x", width/2.5)
+                    .attr("y", height*0.07)
+                    .attr("font-size", 40)
+                    .attr("font-family", "georgia")
+                    .attr("fill", "black");
 
-            buttWid = width * 0.1;
-            buttHgt = height * 0.1;
-            buttY = height *0.2;
-            gap = 50;
+
+            var logoX = width * 0.05;
+            var logoY = height * 0.28;
+            var logoWidth = width * 0.08;
+            var logoHeight = height * 0.1;
+
+
+            var ausLogoNames = ["firebirds" , "swifts", "fever", "vixens", "thunderbirds"];
+            var NZLogoNames = ["mystics", "magic", "steel", "pulse", "tactix"];
+            var ausVenueNames = ["Brisbane Convention & Exhibition Centre", "Sydney Olympic Park Sports Centre", "Challenge Stadium", "Vodafone Arena", "ETSA Park"];
+            var nzVenueNames = ["Trusts Stadium", "Energy Events Centre", "Stadium Southland", "TSB Arena", "Westpac Arena"];
+
+            var middleRectWidth = width/1.3;
+            var middleRectHeight = height-(height/2.5);
+
+            var g = svg.append("g");
+            g.append("rect")
+                .attr("x",width*0.05)
+                .attr("y",height*0.25)
+                .attr("width", middleRectWidth)
+                .attr("height", middleRectHeight)
+                .attr("fill", "white");
+
+            for (var i = 0; i < 5; i++){
+              // add australian logos
+              appendLogo(logoX, logoY + ((logoHeight + 8) * i), logoWidth, logoHeight, ausLogoNames[i] + ".jpg", g, ausVenueNames[i], i, "AUS");
+              // add NZ logos
+              appendLogo(logoX + (middleRectWidth - logoWidth), logoY + ((logoHeight + 8) * i), logoWidth, logoHeight, NZLogoNames[i] + ".jpg", g, nzVenueNames[i], i, "NZ");
+            }
+
             navigationButtons();
-             
-            svg.append("rect")
-                .attr("x", width/4)
-                .attr("y", height/4)
-                .attr("width", width/3)
-                .attr("height", height/3)
+
+                g.append("text")
+                    .text("Select A Venue")
+                    .attr("x", middleRectWidth/2)
+                    .attr("y", height * 0.3)
+                    .attr("font-size", 40)
+                    .attr("font-family", "georgia")
+                    .attr("fill", "black");
+            }
+
+            function appendLogo(x, y, width, height, venPic, g, venName, index, country){
+              g.append("image")
+                .attr("preserveAspectRatio","none")
+                .attr("xlink:href", "images/venues/" + venPic)
+                .attr("x", x)
+                .attr("y", y)
+                .attr("width", width)
+                .attr("height", height)
+                .style("opacity", 0.6)
                 .on("mouseover", function(){
-                        d3.select(this)
-                            .transition()
-                            //.attr("fill", "green")
-                            .attr("width", width/3 +2*gap)
-                            .attr("x", width/4+gap)
-                            .attr("y",height/4 + gap )
-                            .attr("height", height/3 +2*gap);
-                     })
-                    .on("mouseout", function(d){
-                         d3.select(this)
-                            .transition()
-                            //.style("fill", colour)
-                            .attr("width", width/4)
-                            .attr("x", width/3)
-                            .attr("height", height/4)
-                            .attr("y", height/3);
-                    })
-                    .on("mousedown", function(){
-                        
-                    });
+                  d3.select(this)
+                    .style("opacity", 1)
+                })
+                .on("mouseout", function(){
+                  d3.select(this)
+                    .style("opacity", 0.6)
+                })
+                .on("mousedown", function(){
+                  g.selectAll("text")
+                    .remove();
+                  venueSelection(g, venName, venPic, index, country);
+                })
+            }
+
+            function venueSelection(group, venName, venPic, index, country){
+            var ausTeams = ["Queensland Firebirds", "New South Wales Swifts", "West Coast Fever", "Melbourne Vixens", "Adelaide Thunderbirds"];
+            var nzTeams = ["Northern Mystics", "Bay of Plenty Magic", "Southern Steel", "Central Pulse", "Canterbury Tactix"];
+
+            var homeTotals;
+                group.append("text")
+                    .text(venName)
+                    .attr("x", (width/1.2)/2)
+                    .attr("y", height * 0.3)
+                    .attr("font-size", 40)
+                    .attr("font-family", "georgia")
+                    .attr("fill", "black")
+                    .attr("text-anchor", "middle")
+                    .attr("text-decoration", "underline");
+                if(country == "AUS"){
+                    var homeTotals = checkHomeGames(ausTeams[index], venName);
+                    group.append("text")
+                        .text("Home Team:   "+ausTeams[index])
+                        .attr("x", width * 0.17)
+                        .attr("y", height * 0.4)
+                        .attr("font-size", 30)
+                        .attr("font-family", "georgia")
+                        .attr("fill", "black");                   
+                }
+                else if(country == "NZ"){
+                    var homeTotals = checkHomeGames(nzTeams[index], venName);
+                    group.append("text")
+                        .text("Home Team:   "+nzTeams[index])
+                        .attr("x", width * 0.18)
+                        .attr("y", height * 0.45)
+                        .attr("font-size", 30)
+                        .attr("font-family", "georgia")
+                        .attr("fill", "black");
+                }
+
+                group.append("image")
+                    .attr("preserveAspectRatio","none")
+                    .attr("xlink:href", "images/venues/" + venPic)
+                    .attr("x", width * 0.17)
+                    .attr("y", height * 0.52)
+                    .attr("width", width * 0.25)
+                    .attr("height", height * 0.3);
+
+                var homeStatsSplit = homeTotals.split(" ");
+
+                group.append("text")
+                    .text("Total Home Games:   "+homeStatsSplit[1])
+                    .attr("x", width * 0.18 + (width * 0.3))
+                    .attr("y", height * 0.6)
+                    .attr("font-size", 30)
+                    .attr("font-family", "georgia")
+                    .attr("fill", "black");  
+
+                group.append("text")
+                    .text("Total Home Wins:   "+homeStatsSplit[0])
+                    .attr("x", width * 0.18 + (width * 0.3))
+                    .attr("y", height * 0.68)
+                    .attr("font-size", 30)
+                    .attr("font-family", "georgia")
+                    .attr("fill", "black");                    
+            }
+
+            function checkHomeGames(homeTeam, venue){
+                var totalWins = 0;
+                var totalGames = 0;
+
+                for(var i = 0; i < file.data2008.length; i++){
+                    var splitVenData = file.data2008[i].venue.split(" ");
+                    var splitVen = venue.split(" ");
+                    if(file.data2008[i].hometeam && splitVen[0] == splitVenData[0]){
+                        totalGames++;
+                        var scoreSplit = file.data2008[i].score.split("–");
+                        if(scoreSplit[0] > scoreSplit[1]){
+                            totalWins++;
+                        }
+                    }
+                }
+                return totalWins+" "+totalGames;
 
             }
 
-
-
             function navigationButtons(){
+            buttWid = width * 0.1;
+            buttHgt = height * 0.1;
+            buttY = height *0.2;
+
             addButton(width - buttWid, height *0.2, buttWid, buttHgt, "rgb(255,255,192)", "Homepage", "Homepage.html");
             addButton(width - buttWid, buttY + (buttHgt*1.5), buttWid, buttHgt, "rgb(242,218,62)", "Teams", "Teams.html");
-
             addButton(width - buttWid, buttY + (buttHgt*3), buttWid, buttHgt, "rgb(245,213, 0)", "Standings", "Standings.html");
             addButton(width - buttWid, buttY + (buttHgt*4.5), buttWid, buttHgt, "rgb(204,153,0)", "Venues", "Venues.html");
             addButton(width - buttWid, buttY + (buttHgt*6), buttWid, buttHgt, "rgb(153,102,0)", "Calendar", "Calendar.html");
@@ -210,7 +296,6 @@
                     .on("mouseout", function(d){
                          d3.select(this)
                             .transition()
-                            //.style("fill", colour)
                             .attr("width", buttWid)
                             .attr("x", x)
                             .attr("height", height)
@@ -242,20 +327,20 @@
                             .attr("x", x-3 )
                             .style("font-size", "25px");              
                 })
-                        .on("mouseout", function(d){
+                    .on("mouseout", function(d){
                         d3.select(rect)
-                            .transition()
-                            .attr("width", buttWid)
-                            .attr("x", x)
-                            .attr("height", height)
-                            .attr("y", y);
+                        .transition()
+                        .attr("width", buttWid)
+                        .attr("x", x)
+                        .attr("height", height)
+                        .attr("y", y);
 
-                        d3.select(this)
-                            .transition()
-                            .attr("x", x + 10)
-                            .attr("y", y + (0.2*buttWid))
-                            .attr("fill", "black")
-                            .style("font-size", "20px");
+                    d3.select(this)
+                        .transition()
+                        .attr("x", x + 10)
+                        .attr("y", y + (0.2*buttWid))
+                        .attr("fill", "black")
+                        .style("font-size", "20px");
                 })
             .on("mousedown", function(){
                window.open(link, "_self");

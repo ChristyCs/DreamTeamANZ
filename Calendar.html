@@ -11,9 +11,6 @@
     <body style = "margin-top: 0px; margin-left: 0px">
         <script type="text/javascript">
 
-
-            // Round,Date,Time,Home Team,Score,Away Team,Venue
-
             var currentYear = "2010";
             var currentMonth = "June";
             var selectedDay = "";
@@ -39,16 +36,13 @@
             function readCSV(fname, year, setup){
                 d3.csv(fname, function(d) {
                 var season = file.readData(d);
-                //console.log(season);
                 file.allData.push(season);
                 return season;
             }, function(error, rows) {
-                //console.log(rows);
-                //return rows;
                 testData(rows, year, setup);
                 });
             }
-
+            //Sets up all the data from the files and stores it.
             function testData(data, year, setup){
                 if(year == 2008){
                     file.set2008(data);                 
@@ -106,6 +100,28 @@
                     .attr("height",height)
                     .style("opacity", 0.8);
 
+                svg.append("image")
+                    .attr("preserveAspectRatio","none")
+                    .attr("xlink:href","images/CalendarIcon.png")
+                    .attr("x",0)
+                    .attr("y",height*0.1)
+                    .attr("width",width * 0.04)
+                    .attr("height",height * 0.05)
+                    .style("opacity", 0.8)
+                    .on("mousedown", function(){
+                        window.open("Calendar.html", "_self");
+                    });
+
+                svg.append("text")
+               
+                  .attr("id", "title")
+                  .text("Calendar")
+                  .attr("x", width/2.5)
+                  .attr("y", height*0.07)
+                  .attr("font-size", 40)
+                  .attr("font-family", "georgia")
+                  .attr("fill", "black");
+
                 var g = svg.append("g");
 
                 g.append("rect")
@@ -118,12 +134,12 @@
                 buttWid = width * 0.1;
                 buttHgt = height * 0.1;
                 buttY = height *0.2;
-                addButton(width - buttWid, height *0.2, buttWid, buttHgt, "rgb(255,255,192)", "Homepage", "Homepage.html");
-                addButton(width - buttWid, buttY + (buttHgt*1.5), buttWid, buttHgt, "rgb(238,238,128)", "Teams", "Teams.html");
 
-                addButton(width - buttWid, buttY + (buttHgt*3), buttWid, buttHgt, "rgb(205,205,64)", "Standings", "Standings.html");
-                addButton(width - buttWid, buttY + (buttHgt*4.5), buttWid, buttHgt, "rgb(171,171,32)", "Venues", "Venues.html");
-                addButton(width - buttWid, buttY + (buttHgt*6), buttWid, buttHgt, "rgb(139,139,0)", "Calendar", "Calendar.html");
+                addButton(width - buttWid, height *0.2, buttWid, buttHgt, "rgb(255,255,192)", "Homepage", "Homepage.html");
+                addButton(width - buttWid, buttY + (buttHgt*1.5), buttWid, buttHgt, "rgb(242,218,62)", "Teams", "Teams.html");
+                addButton(width - buttWid, buttY + (buttHgt*3), buttWid, buttHgt, "rgb(245,213,7)", "Standings", "Standings.html");
+                addButton(width - buttWid, buttY + (buttHgt*4.5), buttWid, buttHgt, "rgb(204,153,0)", "Venues", "Venues.html");
+                addButton(width - buttWid, buttY + (buttHgt*6), buttWid, buttHgt, "rgb(153,102,0)", "Calendar", "Calendar.html");
 
                 drawCalendar(currentMonth, currentYear,g,false);
             }
@@ -287,7 +303,13 @@
 
                 var games = getGameOnDay(day);
                 for (var i = 0; i < games.length; i++) {
-                    //gameGroup.append("text")
+                    var day = games[i].date.split(" ");
+                    gameGroup.append("text")
+                    .text(day[0]+" - "+games[i].hometeam+"  VS  "+games[i].awayteam+"   "+games[i].venue)
+                    .attr("x", width * 0.2)
+                    .attr("y", height * 0.45 + (i * 40))
+                    .attr("font-size", 22)
+                    .attr("font-family", "georgia");
                 }
             }  
 
@@ -379,7 +401,7 @@
                     .attr("fill", "black")
                     .attr("text-anchor", "middle");  
             }
-
+            //Gets the previous year from the current year
             function previousYear(curYear){
                 if(curYear == "2008"){
                     return curYear;
@@ -387,7 +409,7 @@
                 var year = parseInt(curYear);
                 return (year-1);
             }
-
+            //Gets the next year form the current year
             function nextYear(curYear){
                 if(curYear == "2013"){
                     return curYear;
@@ -457,11 +479,6 @@
                 if(curMonth == "June"){
                     return "July";
                 }                                       
-            }
-
-            //Data not reading properly atm
-            function checkGames(){
-
             }
 
            function addButton(x, y, width, height, colour, buttName, link){
