@@ -137,6 +137,15 @@
             gap = 50;
             navigationButtons();
             seasonButtons();
+
+            svg.append("text")
+                  .attr("id", "title")
+                  .text("Standings")
+                  .attr("x", width/2.5)
+                  .attr("y", height*0.07)
+                  .attr("font-size", 40)
+                  .attr("font-family", "georgia")
+                  .attr("fill", "black");
             }
 
             function seasonButtons(){

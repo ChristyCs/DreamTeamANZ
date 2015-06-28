@@ -86,7 +86,17 @@
                         .attr("width",width)
                         .attr("height",height);
 
+
                     setupPage();
+
+                    svg.append("text")
+                  .attr("id", "title")
+                  .text("Venues")
+                  .attr("x", width/2.5)
+                  .attr("y", height*0.07)
+                  .attr("font-size", 40)
+                  .attr("font-family", "georgia")
+                  .attr("fill", "black");
                     //add methods here
                 }                          
             }
@@ -136,8 +146,36 @@
             buttY = height *0.2;
             gap = 50;
             navigationButtons();
+             
+            svg.append("rect")
+                .attr("x", width/4)
+                .attr("y", height/4)
+                .attr("width", width/3)
+                .attr("height", height/3)
+                .on("mouseover", function(){
+                        d3.select(this)
+                            .transition()
+                            //.attr("fill", "green")
+                            .attr("width", width/3 +2*gap)
+                            .attr("x", width/4+gap)
+                            .attr("y",height/4 + gap )
+                            .attr("height", height/3 +2*gap);
+                     })
+                    .on("mouseout", function(d){
+                         d3.select(this)
+                            .transition()
+                            //.style("fill", colour)
+                            .attr("width", width/4)
+                            .attr("x", width/3)
+                            .attr("height", height/4)
+                            .attr("y", height/3);
+                    })
+                    .on("mousedown", function(){
+                        
+                    });
 
             }
+
 
 
             function navigationButtons(){
