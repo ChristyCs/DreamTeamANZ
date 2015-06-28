@@ -25,22 +25,22 @@ data.prototype = {
     	return this.allData;
     },
     set2008 : function(list){
-    	this.data2008 = list;
+    	this.data2008.push(list);
     },
-    set2009 : function(){
-    	return this.data2009;
+    set2009 : function(list){
+        this.data2009.push(list);
     },
-    set2010 : function(){
-    	return this.data2010;
+    set2010 : function(list){
+        this.data2010.push(list);
     },
-    set2011 : function(){
-    	return this.data2011;
+    set2011 : function(list){
+        this.data2011.push(list);
     },
-    set2012 : function(){
-    	return this.data2012;
+    set2012 : function(list){
+        this.data2012.push(list);
     },
-    set2013 : function(){
-    	return this.data2013;
-    }
+    set2013 : function(list){
+        this.data2013.push(list);
+    },
 
 }

@@ -11,21 +11,26 @@
         <script type="text/javascript">
 
            var file = new data();
+           var seasonIter;
            setupData();
            function setupData(){
            file.set2008(readCSV("ANZChampionshipResults/2008-Table1.csv"));
-           file.data2009 = readCSV("ANZChampionshipResults/2009-Table1.csv");
-           file.data2010 = readCSV("ANZChampionshipResults/2010-Table1.csv");
-           file.data2011 = readCSV("ANZChampionshipResults/2011-Table1.csv");
-           file.data2012 = readCSV("ANZChampionshipResults/2012-Table1.csv");
-           file.data2013 = readCSV("ANZChampionshipResults/2013-Table1.csv");
+           console.log(seasonIter===undefined);
+           file.set2008(seasonIter);
+           file.set2009(readCSV("ANZChampionshipResults/2009-Table1.csv"));
+           file.set2010(readCSV("ANZChampionshipResults/2010-Table1.csv"));
+           file.set2011(readCSV("ANZChampionshipResults/2011-Table1.csv"));
+           file.set2012(readCSV("ANZChampionshipResults/2012-Table1.csv"));
+           file.set2013(readCSV("ANZChampionshipResults/2013-Table1.csv"));
          }
          function readCSV(fname){
                 d3.csv(fname, function(d) {
                 var season = file.readData(d);
                 file.allData.push(season);
+                seasonIter=season;
                 return season;
             }, function(error, rows) {
+                seasonIter=rows;
                 return rows;
                 });
             }
@@ -36,6 +41,7 @@
            testData(file);
             function testData(file){
                 console.log(file);
+                console.log(file.allData.length);
             }
 
 

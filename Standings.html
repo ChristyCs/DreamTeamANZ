@@ -17,7 +17,7 @@
             var dataFile2012 = readCSV("ANZChampionshipResults/2012-Table1.csv");
             var dataFile2013 = readCSV("ANZChampionshipResults/2013-Table1.csv");
 
-
+            console.log(dataFile2008);
             function readCSV(fname){
                 d3.csv(fname, function(d) {
                 return readData(d);
@@ -86,11 +86,11 @@
             seasonButtons();
 
             function seasonButtons(){
-            addButton(gap, height *0.2, buttWid, buttHgt, "rgb(255,255,192)", "Season 1(2008)", "Nothing.html");
-            addButton(gap, buttY + (buttHgt*1.5), buttWid, buttHgt, "rgb(238,238,128)", "Season 2(2009)", "Nothing.html");
-            addButton(gap, buttY + (buttHgt*3), buttWid, buttHgt, "rgb(205,205,64)", "Season 3(2010)", "nothing.html" );
-            addButton(gap, buttY + (buttHgt*4.5), buttWid, buttHgt,  "rgb(171,171,32)", "Season 4(2011)", "nothing.html");
-            addButton(gap, buttY + (buttHgt*6), buttWid, buttHgt, "rgb(139,139,0)", "Season 5(2012)", "Nothing.html" );
+            addButton(gap, height *0.2, buttWid, buttHgt, "rgb(255,255,192)", "Season 1(2008)", "");
+            addButton(gap, buttY + (buttHgt*1.5), buttWid, buttHgt, "rgb(238,238,128)", "Season 2(2009)", "");
+            addButton(gap, buttY + (buttHgt*3), buttWid, buttHgt, "rgb(205,205,64)", "Season 3(2010)", "" );
+            addButton(gap, buttY + (buttHgt*4.5), buttWid, buttHgt,  "rgb(171,171,32)", "Season 4(2011)", "");
+            addButton(gap, buttY + (buttHgt*6), buttWid, buttHgt, "rgb(139,139,0)", "Season 5(2012)", "" );
             }
 
 
@@ -156,7 +156,6 @@
                         d3.select(this)
                             .transition()
                             .attr("x", x-3 )
-                            .attr("fill", "yellow")
                             .style("font-size", "25px");              
                 })
                         .on("mouseout", function(d){
