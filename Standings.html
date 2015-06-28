@@ -285,6 +285,45 @@
 
                 for(var a=0; a<10; a++){
                     for(var b=0; b<5; b++){
+                        if(b===1){
+                             if(a===0){
+                        svg.append("rect")
+                            .attr("x", top + cellW*b)
+                            .attr("y", side + cellH*a)
+                            .attr("width", cellW+2*gap)
+                            .attr("height", cellH*2)
+                            .attr("fill", "white")
+                            .attr("stroke", "black");
+                        }else {
+                        svg.append("rect")
+                            .attr("x", top + cellW*b)
+                            .attr("y", side + cellH*(a+1))
+                            .attr("width", cellW+2*gap)
+                            .attr("height", cellH)
+                            .attr("fill", "white")
+                            .attr("stroke", "black");
+                        }
+                        }else if(b===2){
+                            if(a===0){
+                        svg.append("rect")
+                            .attr("x", top + cellW*b + 2*gap)
+                            .attr("y", side + cellH*a)
+                            .attr("width", cellW)
+                            .attr("height", cellH*2)
+                            .attr("fill", "white")
+                            .attr("stroke", "black");
+                        }else {
+                        svg.append("rect")
+                            .attr("x", top + cellW*b + 2*gap)
+                            .attr("y", side + cellH*(a+1))
+                            .attr("width", cellW)
+                            .attr("height", cellH)
+                            .attr("fill", "white")
+                            .attr("stroke", "black");
+                        }
+
+                        }else {
+
                         if(a===0){
                             console.log("less than 1");
                         svg.append("rect")
@@ -304,8 +343,118 @@
                             .attr("stroke", "black");
                         }
                     }
+                    }
                 }
     
+                        svg.append("text")
+                            .attr("x", top + gap)
+                            .attr("y", side + gap)
+                            .text("NATION")
+                            .attr("font-family", "georgia")
+                            .attr("font-weight","bold")
+                            .style("font-size", "25px");
+
+                        svg.append("text")
+                            .attr("x", top+(gap/2) +cellW)
+                            .attr("y", side + gap)
+                            .attr("font-family", "georgia")
+                            .attr("font-weight","bold")
+                            .text("TEAM NAME")
+                            .style("font-size", "25px");
+
+                        svg.append("text")
+                            .attr("x", top+(gap/2) +cellW*2 + 2*gap)
+                            .attr("y", side + gap)
+                            .text("Points")
+                            .attr("font-family", "georgia")
+                            .attr("font-weight","bold")
+                            .style("font-size", "25px");
+
+                        svg.append("text")
+                            .attr("x", top+(gap/2) +cellW*3)
+                            .attr("y", side + gap)
+                            .text("Wins")
+                            .attr("font-family", "georgia")
+                            .attr("font-weight","bold")
+                            .style("font-size", "25px");
+
+                        svg.append("text")
+                            .attr("x", top+(gap/2) +cellW*4)
+                            .attr("y", side + gap)
+                            .text("Loses")
+                            .attr("font-family", "georgia")
+                            .attr("font-weight","bold")
+                            .style("font-size", "25px");
+
+                    var order = [];
+                    while(true){
+                        if(seasonInfo.length === 1){
+                            order.push(seasonInfo[0]);
+                            break;
+                        }
+                        var temp=seasonInfo[0];
+                        var index =0;
+                        var size = seasonInfo.length;
+                    for(var i=0; i< size; i++){
+                        if(seasonInfo[i].win > temp.win){
+                            temp = seasonInfo[i];
+                            index = i;
+                        }
+                    
+                    }
+                order.push(temp);
+                seasonInfo.splice(index,1);
+                }
+
+               
+
+
+                    for(var a=1; a<10; a++){                        
+                         svg.append("text")
+                            .attr("x", top + gap)
+                            .attr("y", side + cellH*(a+2)-gap/2)
+                            .attr("font-family", "georgia")
+                            .attr("font-weight","bold")
+                            .text(order[a-1].nation)
+                            .style("font-size", "25px");
+
+                        svg.append("text")
+                            .attr("x", top+(gap/2) +cellW)
+                            .attr("y", side + cellH*(a+2)-gap/2)
+                            .attr("font-family", "georgia")
+                            .attr("font-weight","bold")
+                            .text(order[a-1].name)
+                            .style("font-size", "20px");
+
+                        svg.append("text")
+                            .attr("x", top+(gap/2) +cellW*2+ 2*gap)
+                            .attr("y", side + cellH*(a+2)-gap/2)
+                            .text(order[a-1].win*2)
+                            .attr("font-family", "georgia")
+                            .attr("font-weight","bold")
+                            .style("font-size", "25px");
+
+                        svg.append("text")
+                            .attr("x", top+(gap/2) +cellW*3)
+                            .attr("y", side + cellH*(a+2)-gap/2)
+                            .text(order[a-1].win)
+                            .attr("font-family", "georgia")
+                            .attr("font-weight","bold")
+                            .style("font-size", "25px");
+
+                        svg.append("text")
+                            .attr("x", top+(gap/2) +cellW*4)
+                            .attr("y", side + cellH*(a+2)-gap/2)
+                            .text(order[a-1].lose)
+                            .attr("font-family", "georgia")
+                            .attr("font-weight","bold")
+                            .style("font-size", "25px");
+
+                    
+                }       
+                
+            
+
             }
 
             function getInfo(season){
@@ -325,9 +474,60 @@
                 }
 
                 var wins = [];
-                
-                console.log(currentInfo.length);
+                var loses = [];
+                var names = [];
+                for (var i = 0; i < 10; i++){
+                    wins.push(0);
+                    loses.push(0);
+                }
+                for (var i = 0; i < currentInfo.length; i++){
+                checkWin(currentInfo[i], 'Queensland Firebirds', 0, wins, loses);
+                checkWin(currentInfo[i], 'New South Wales Swifts', 1, wins, loses);
+                checkWin(currentInfo[i], 'West Coast Fever', 2, wins, loses);
+                checkWin(currentInfo[i], 'Melbourne Vixens', 3, wins, loses);
+                checkWin(currentInfo[i], 'Adelaide Thunderbirds', 4, wins, loses);
+                checkWin(currentInfo[i], 'Northern Mystics', 5, wins, loses);
+                checkWin(currentInfo[i], 'Waikato Bay of Plenty Magic', 6, wins, loses);
+                checkWin(currentInfo[i], 'Southern Steel', 7, wins, loses);
+                checkWin(currentInfo[i], 'Central Pulse', 8, wins, loses);
+                checkWin(currentInfo[i], 'Canterbury Tactix', 9, wins, loses);
+
+            }   
+                names.push({name:"Queensland Firebirds", nation: "Australia"});
+                names.push({name:"New South Wales Swifts", nation: "Australia"});
+                names.push({name:"West Coast Fever", nation: "New Zealand"});
+                names.push({name:"Melbourne Vixens", nation: "Australia"});
+                names.push({name:"Adelaide Thunderbirds", nation: "Australia"});
+                names.push({name:"Northern Mystics", nation: "New Zealand"});
+                names.push({name:"Waikato Bay of Plenty Magic", nation: "New Zealand"});
+                names.push({name:"Southern Steel", nation: "New Zealand"});
+                names.push({name:"Central Pulse", nation: "New Zealand"});
+                names.push({name:"Canterbury Tactix", nation: "New Zealand"});
+
+                var total = [];
+                for(var i =0; i<wins.length; i++){
+                    total.push({win:wins[i], lose:loses[i], name:names[i].name, nation: names[i].nation});
+                }
+                return total;
             }
+
+            function checkWin(year, name, winsIndex, wins, loses){
+                var score = year.score.split('–');
+                    if (year.hometeam === name){
+                        if (score[0] > score[1]){
+                            wins[winsIndex]++;
+                        }else{
+                            loses[winsIndex]++;
+                        }                        
+                    }
+                    if (year.awayteam === name){
+                        if (score[1] > score[0]){
+                            wins[winsIndex]++;
+                        }else{
+                            loses[winsIndex]++;
+                        }                         
+                    }
+                }
         </script>
     </body>
 </html>
