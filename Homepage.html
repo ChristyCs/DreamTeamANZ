@@ -111,13 +111,14 @@
                     .attr("height",height * 0.05)
                     .style("opacity", 0.8);
 
-            // svg.append("image")
-            //     .attr("xlink:href","greyscale.jpg")
-            //     .attr("overflow","hidden")
-            //     .attr("x",0)
-            //     .attr("y",0)
-            //     .attr("width",width)
-            //     .attr("height",height);
+            svg.append("image")
+                        .attr("preserveAspectRatio","none")
+                        .attr("xlink:href","images/ANZGamePictures/ANZ4.jpg")
+                        .attr("x",0)
+                        .attr("y",height*0.15)
+                        .attr("width",width)
+                        .attr("height",height)
+                        .style("opacity", 0.8);
 
                 svg.append("rect")
                     .attr("x",0)
@@ -129,16 +130,18 @@
             buttWid = width * 0.1;
             buttHgt = height * 0.1;
             buttY = height *0.2;
-            addButton(width - buttWid, height *0.2, buttWid, buttHgt, "rgb(255,255,192)", "Homepage");
-            addButton(width - buttWid, buttY + (buttHgt*1.5), buttWid, buttHgt, "rgb(238,238,128)", "Teams");
+            addButton(width - buttWid, height *0.2, buttWid, buttHgt, "rgb(255,255,192)", "Homepage", "Homepage.html");
+            addButton(width - buttWid, buttY + (buttHgt*1.5), buttWid, buttHgt, "rgb(238,238,128)", "Teams", "Teams.html");
 
-            addButton(width - buttWid, buttY + (buttHgt*3), buttWid, buttHgt, "rgb(205,205,64)", "Standings");
-            addButton(width - buttWid, buttY + (buttHgt*4.5), buttWid, buttHgt, "rgb(171,171,32)", "Venues");
-            addButton(width - buttWid, buttY + (buttHgt*6), buttWid, buttHgt, "rgb(139,139,0)", "Calendar");
+            addButton(width - buttWid, buttY + (buttHgt*3), buttWid, buttHgt, "rgb(205,205,64)", "Standings", "Standings.html");
+            addButton(width - buttWid, buttY + (buttHgt*4.5), buttWid, buttHgt, "rgb(171,171,32)", "Venues", "Venues.html");
+            addButton(width - buttWid, buttY + (buttHgt*6), buttWid, buttHgt, "rgb(139,139,0)", "Calendar", "Calendar.html");
             }
 
-            function addButton (x, y, width, height, colour, buttName){
-                svg.append("rect")
+           function addButton(x, y, width, height, colour, buttName, link){
+                var parent = svg.append("g");
+                var rect;
+                parent.append("rect")
                     .attr("id", buttName)
                     .attr("x", x)
                     .attr("y", y)
@@ -146,13 +149,14 @@
                     .attr("height", height)
                     .attr("fill", colour)
                     .on("mouseover", function(){
+                        rect = this;
                         d3.select(this)
                             .transition()
                             //.attr("fill", "green")
                             .attr("width", buttWid * 1.3)
                             .attr("x", x - buttWid * 0.3)
                             .attr("y", y - (0.15 * (buttHgt * 1.4)))
-                            .attr("height", buttHgt * 1.4)
+                            .attr("height", buttHgt * 1.4);
                      })
                     .on("mouseout", function(d){
                          d3.select(this)
@@ -161,13 +165,54 @@
                             .attr("width", buttWid)
                             .attr("x", x)
                             .attr("height", height)
-                            .attr("y", y)
+                            .attr("y", y);
                     })
                     .on("mousedown", function(){
-                        window.open(buttName + ".html", "_self")
-                    })
+                        window.open(link, "_self")
+                    });
 
-                    appendText(buttName, x, y + (0.25*buttWid), 15);
+                parent.append("text")
+                        .attr("id", "button")
+                        .attr("x",  x + 10)
+                        .attr("y", y + (0.2*buttWid))
+                        .attr("fill", "black")
+                        .attr("font-family", "georgia")
+                        .attr("font-weight","bold")
+                        .style("font-size", "20px")
+                        .text(buttName)
+                        .on("mouseover", function(){
+                        d3.select(rect)
+                            .transition()
+                            .attr("width", buttWid * 1.3)
+                            .attr("x", x - buttWid * 0.3)
+                            .attr("y", y - (0.15 * (buttHgt * 1.4)))
+                            .attr("height", buttHgt * 1.4);
+
+                        d3.select(this)
+                            .transition()
+                            .attr("x", x-3 )
+                            .attr("fill", "yellow")
+                            .style("font-size", "25px");              
+                })
+                        .on("mouseout", function(d){
+                        d3.select(rect)
+                            .transition()
+                            .attr("width", buttWid)
+                            .attr("x", x)
+                            .attr("height", height)
+                            .attr("y", y);
+
+                        d3.select(this)
+                            .transition()
+                            .attr("x", x + 10)
+                            .attr("y", y + (0.2*buttWid))
+                            .attr("fill", "black")
+                            .style("font-size", "20px");
+                })
+            .on("mousedown", function(){
+               window.open(link, "_self");
+             });
+            
 
             }
 
