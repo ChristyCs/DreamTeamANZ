@@ -5,50 +5,91 @@
         <title>Standings Page</title>
         <!--<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>-->
         <script src="d3.js"></script>
+         <script type="text/javascript" src="data.js"></script>
     </head>
     <body style = "margin-top: 0px; margin-left: 0px">
         <script type="text/javascript">
 
             // Round,Date,Time,Home Team,Score,Away Team,Venue
-            var dataFile2008 = readCSV("ANZChampionshipResults/2008-Table1.csv");
-            var dataFile2009 = readCSV("ANZChampionshipResults/2009-Table1.csv");
-            var dataFile2010 = readCSV("ANZChampionshipResults/2010-Table1.csv");
-            var dataFile2011 = readCSV("ANZChampionshipResults/2011-Table1.csv");
-            var dataFile2012 = readCSV("ANZChampionshipResults/2012-Table1.csv");
-            var dataFile2013 = readCSV("ANZChampionshipResults/2013-Table1.csv");
+            var svg;
+            var width;
+            var height;
+            var buttWid;
+            var buttHgt;
+            var buttY;
+            var gap;
 
-            console.log(dataFile2008);
-            function readCSV(fname){
+            var file = new data();
+            setupData();
+
+        function setupData(){
+           file.set2008(readCSV("ANZChampionshipResults/2008-Table1.csv",2008,false));
+           file.set2009(readCSV("ANZChampionshipResults/2009-Table1.csv",2009,false));
+           file.set2010(readCSV("ANZChampionshipResults/2010-Table1.csv",2010,false));
+           file.set2011(readCSV("ANZChampionshipResults/2011-Table1.csv",2011,false));
+           file.set2012(readCSV("ANZChampionshipResults/2012-Table1.csv",2012,false));
+           file.set2013(readCSV("ANZChampionshipResults/2013-Table1.csv",2013,true));
+         }
+         function readCSV(fname, year, setup){
                 d3.csv(fname, function(d) {
-                return readData(d);
+                var season = file.readData(d);
+                //console.log(season);
+                file.allData.push(season);
+                return season;
             }, function(error, rows) {
-                return rows;
+                console.log(rows);
+                //return rows;
+                testData(rows,year, setup);
                 });
             }
 
-            function readData(d){
-                return {
-                    round: +d.Round,
-                    date: d.Date,
-                    time: d.Time,
-                    hometeam: d['Home Team'],
-                    score: d.Score,
-                    awayteam: d['Away Team'],
-                    venue: d.Venue
-                 };
+            function testData(data, year, setup){
+                console.log("year "+year);
+                if(year == 2008){
+                    file.set2008(data);
+                    //console.log(file.data2008[0]);
+                    //console.log(file.data2008[40]);                    
+                }
+                else if(year == 2009){
+                    file.set2009(data);
+                    //console.log(file.data2009[0]);
+                    //console.log(file.data2009[40]);
+                }
+                else if(year == 2010){
+                    file.set2010(data);
+                   // console.log(file.data2010[0]);
+                    //console.log(file.data2010[40]);
+                }
+                else if(year == 2011){
+                    file.set2011(data);
+                    //console.log(file.data2011[0]);
+                    //console.log(file.data2011[40]);
+                }
+                else if(year == 2012){
+                    file.set2012(data);
+                    //console.log(file.data2012[0]);
+                   // console.log(file.data2012[40]);
+                }
+                else if(year == 2013){
+                    file.set2013(data);
+                   // console.log(file.data2013[0]);
+                    //console.log(file.data2013[40]);
+                }
+                console.log(setup);
+                if(setup){
+                    width = window.innerWidth;
+                    height = window.innerHeight;
+
+
+                    svg = d3.select("body")
+                        .append("svg")
+                        .attr("width",width)
+                        .attr("height",height);
+
+                    setupPage();
+                    //add methods here
+                }                          
             }
-
-
-            var width = window.innerWidth;
-            var height = window.innerHeight;
-
-
-            var svg = d3.select("body")
-                .append("svg")
-                .attr("width",width)
-                .attr("height",height);
-
-            setupPage();
 
             function setupPage(){
                 svg.append("rect")
@@ -65,25 +106,38 @@
                     .attr("height", height*0.05)
                     .attr("fill",("rgb(151,255,255)"));
 
-            svg.append("image")
+                svg.append("image")
                     .attr("preserveAspectRatio","none")
-                    .attr("xlink:href","images/greyscale.jpg")
+                    .attr("xlink:href","images/CalendarIcon.png")
                     .attr("x",0)
-                    .attr("y",height*0.15)
-                    .attr("width",width)
-                    .attr("height",height)
+                    .attr("y",height*0.1)
+                    .attr("width",width * 0.04)
+                    .attr("height",height * 0.05)
                     .style("opacity", 0.8);
 
-            }
+            svg.append("image")
+                .attr("preserveAspectRatio","none")
+                .attr("xlink:href","images/greyscale.jpg")
+                .attr("x",0)
+                .attr("y",height*0.15)
+                .attr("width",width)
+                .attr("height",height)
+                .style("opacity", 0.8);
 
+                // svg.append("rect")
+                //     .attr("x",0)
+                //     .attr("y",height*0.15)
+                //     .attr("width",width)
+                //     .attr("height",height-(height*0.15))
+                //     .attr("fill",("rgb(99,99,99)"));
 
-
-            var buttWid = width * 0.1;
-            var buttHgt = height * 0.1;
-            var buttY = height *0.2;
-            var gap = 50;
+            buttWid = width * 0.1;
+            buttHgt = height * 0.1;
+            buttY = height *0.2;
+            gap = 50;
             navigationButtons();
             seasonButtons();
+            }
 
             function seasonButtons(){
             addButton(gap, height *0.2, buttWid, buttHgt, "rgb(255,255,192)", "Season 1(2008)", "");
